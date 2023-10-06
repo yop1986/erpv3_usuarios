@@ -34,9 +34,7 @@
                 <li><hr class="dropdown-divider"></li>
               {% endif %}
                 
-              {% if perms.usuarios.view_perfil%}
                 <li><a class="dropdown-item" href="{% url 'usuarios:perfil' %}">{% translate "Perfil" %}</a></li>
-              {% endif %}
               {% if perms.usuarios.change_perfil %}
                 <li><a class="dropdown-item" href="{% url 'usuarios:actualizar' %}">{% translate "Actualizar Información" %}</a></li>
               {% endif %}
@@ -64,29 +62,17 @@
             </li>
             {% endif %}
 
-
-            {% if user.is_authenticated and request.user.is_staff %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {% translate "Parametrización" %}
-              </a>
-              <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="">{% translate "Parametrizar archivos" %}</a></li>
-              <li><a class="dropdown-item" href="">{% translate "Listar Param. Archivos" %}</a></li>
-
-              </ul>
-            </li>
-            {% endif %}
-
             {% block navbar_seccion_final %}{% endblock %}
           {% endblock %}
           
           </ul>
+          {% block navbar_search %}
           <form class="d-flex" role="search" method="GET">
             <input class="form-control me-2" type="search" placeholder="" aria-label="Search" name="valor" value="{{ request.GET.valor }}">
             <button class="btn btn-outline-success" type="submit">{% translate "Buscar" %}</button>
             <a href="{{ request.path }}" class="btn btn-outline-primary" >{% translate "Limpiar" %}</a>
           </form>
+          {% endblock %}
         </div>
       </div>
     </nav>
