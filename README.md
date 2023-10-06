@@ -36,10 +36,10 @@ Dentro del direcotrio static es necesario crear un archivo de configuración
 general, dentro del cual se definiran alguna variables necesarias para el 
 sistema bajo el formato: 
 
-*__(venv) ERPv3/static/configuraciones.cfg__*
-
 	[Encabezado]
 	variable 	= valor
+
+Contenido del archivo *__(venv) ERPv3/static/configuraciones.cfg__*:
 
 	[sitio]
 	#Información general del sitio
@@ -140,10 +140,6 @@ Posterior a esta configuracion es necesario agregar las urls al proyecto base __
 	(venv) ERPv3> python manage.py migrate
 	(venv) ERPv3> python manage.py createsuperuser
 	(venv) ERPv3> python manage.py runserver <puerto>
-
-
-
-
 
 
 ## Producción
