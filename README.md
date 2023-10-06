@@ -111,10 +111,11 @@ siguiente informacion:
 	}
 
 	INFORMACION_APLICACIONES = {
-	    'qliksense': {
-	        'nombre': 'Qlik Sense',
-	        'descripcion': _('Control administrativo y permisos de qlik.'),
-	        'imagen': 'qlik_logo.png',
+	    '<nombre_app>': {
+	        'nombre':       '<display>',
+	        'descripcion':  _('<Descripción>'),
+	        'url':          reverse_lazy('<namespace>:<nombre_url>'),
+	        'imagen':       '<imagen>',
 	    },
 	}
 
