@@ -21,9 +21,9 @@ _dependencias.txt_
 
     (venv) >pip install django mysqlclient
 
-*dependencias creadas por medio del comando __pip freeze > requirements.txt__*
+*dependencias creadas por medio del comando __pip freeze > dependencias.txt__*
 
-*dependencias restauradas por mdeio del comando __pip install -r requirements.txt__*
+*dependencias restauradas por mdeio del comando __pip install -r dependencias.txt__*
 
 Se inicia el proyecto django y se descarga esta aplicación base con las 
 configuraciones detalladas a continuación. Adicional es necesario crear 
