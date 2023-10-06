@@ -31,7 +31,6 @@ class Configuraciones():
             url += fr'{staticfiles_storage.url(file)}'
         else:
             url += fr'{file}'
-        print(url)
         self.config.readfp(open(fr'{url}'))
 
     def get_value(self, pSection, pVariable):
