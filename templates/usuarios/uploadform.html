@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags fields_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      {{ form|crispy }}
+
+      {% if upload_form %}
+      <h3>{{ label_campos }}</h3>
+      <ul>
+        {% for campo in campos %}
+        <li>{{ campo }} ({{ campo.get_tipo_display }})</li>
+        {% endfor %}
+      </ul>
+
+        {{ upload_form|crispy }}
+      {% endif %}
+
+      <input type="submit" value="{{ opciones.submit }}" name="" class="btn btn-primary">
+    </form>
+{% endblock %}

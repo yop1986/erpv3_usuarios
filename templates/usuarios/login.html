@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="form-signin">
+        <form method="post" action="{% url 'usuarios:login' %}">
+        {% csrf_token %}
+        <div class="text-center">
+            <img class="mb-4" src="{% static 'images/logo.png' %}" alt="" width="72" height="57">
+        </div>
+        <h1 class="h3 mb-3 fw-normal">{{ h3 }}</h1>
+
+        {{ form|crispy }}
+        
+        <input type="hidden" name="next" value="{{ next }}" />
+        
+        <button class="w-100 btn btn-lg btn-primary" type="submit">{{ opciones.submit }}</button>
+        <a href="{% url 'usuarios:password_reset' %}">{{ opciones.reset }}</a>
+        <p class="mt-5 mb-3 text-muted">&copy; 2023-2027</p>
+      </form>
+    </main>
+
+
+{% endblock %}

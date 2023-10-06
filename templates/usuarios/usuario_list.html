@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n static fields_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    {% if object_list %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{% get_verbose_field_name object_list.0 "username" %}</th>
+          <th scope="col">{{ object_list.0.full_name_description }}</th>
+          <th scope="col">{% get_verbose_field_name object_list.0 "email" %}</th>
+          <th scope="col">{% get_verbose_field_name object_list.0 "date_joined" %}</th>
+          <th scope="col">{{ object_list.0.is_active_description }}</th>
+          <th scope="col">{{ opciones.etiqueta }}</th>
+        </tr>
+      </thead> 
+
+      {% for object in object_list %}
+        <tr>
+          <th scope="row">{{ forloop.counter0|add:page_obj.start_index }}</td>
+          <td>{{ object.username }}</td>
+          <td>{{ object.get_full_name }}</td>
+          <td>{{ object.email }}</td>
+          <td>{{ object.date_joined|date:"d/m/Y" }}</td>
+          <td>{% get_descripcion_estados object.is_active %}</td>
+          <td>
+            {% if perms.usuarios.change_usuario %}
+            <a href="{% url 'usuarios:actualizar' object.id %}" class="btn btn-primary">
+            {{ opciones.editar }}
+            </a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>{% translate "No hay registros para mostrar." %} <a href="{% url 'usuarios:listar' %}">{% translate "Listar"%}</a></p>
+    {% endif %}
+    
+    {% include 'pagination.html' %}
+{% endblock %}

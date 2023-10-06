@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load i18n fields_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    {% if object_list %}
+
+    <div class="row">
+        <div class="col-3">
+          <div class="card card-body">
+          <div class="d-grid gap-1">
+          {% for pais in object_list %}
+          <button class="btn btn-{% if pais.vigente %}primary{% else %}danger{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#PaisCollapse{{ pais.id }}" aria-expanded="false" aria-controls="PaisCollapse{{ pais.id }}">{{ pais }}</button>
+          {% endfor %}
+          </div>
+        </div>
+        </div>
+
+        <div class="col-9">
+          {% for pais in object_list %}
+          <div class="collapse multi-collapse" id="PaisCollapse{{ pais.id }}">
+
+            <div class="row">
+              <div class="col-6">
+                <div class="card card-body">
+                  {% if perms.usuarios.change_regionalizacion %}
+                  <div class="text-center">
+                  <a href="{% url 'usuarios:editar_regionalizacion' pais.id %}">{{ pais }}: {{ opciones.editar }}</a>
+                  </div>
+                  {% endif %}
+                  <div class="d-grid gap-1">
+                  {% for departamento in pais.get_childs %}
+                  <button class="btn btn-{% if departamento.vigente %}primary{% else %}danger{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#DepartamentoCollapse{{ departamento.id }}" aria-expanded="false" aria-controls="DepartamentoCollapse{{ departamento.id }}">{{ departamento }}</button>
+                  {% endfor %}
+                  </div>
+                </div>
+
+              </div>
+            
+              <div class="col-6">
+              {% for departamento in pais.get_childs %}
+                <div class="collapse multi-collapse" id="DepartamentoCollapse{{ departamento.id }}">
+                  <div class="card card-body">
+                    {% if perms.usuarios.change_regionalizacion %}
+                    <div class="text-center">
+                    <a href="{% url 'usuarios:editar_regionalizacion' departamento.id %}">{{ pais }}, {{ departamento }}: {{ opciones.editar }}</a>
+                    </div>
+                    {% endif %}
+                    <div class="d-grid gap-1">
+                      {% for municipio in departamento.get_childs %}
+                      {% if perms.usuarios.change_regionalizacion %}
+                      <a class="btn btn-{% if municipio.vigente %}primary{% else %}danger{% endif %}" href="{% url 'usuarios:editar_regionalizacion' municipio.id %}">{{ municipio }}</a>
+                      {% else %}
+                      <a class="btn btn-{% if municipio.vigente %}primary{% else %}danger{% endif %}">{{ municipio }}</a>
+                      {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+
+    {% else %}
+    <p>{% translate "No hay registros para mostrar." %} <a href="{% url 'usuarios:cargar_regionalizacion' %}">{% translate "Cargar"%}</a></p>
+    {% endif %}
+    
+    {% include 'pagination.html' %}
+{% endblock %}

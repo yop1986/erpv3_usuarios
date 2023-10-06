@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ contenido.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ contenido.h1 }}</h1>
+     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        {% for app in apps %}
+      <div class="feature col">
+        <div class="feature-icon bg-primary bg-gradient">
+          <img src="{% static '/images/' %}{{app.imagen}}" height="60px">
+        </div>
+        <h2>{{ app.nombre }}</h2>
+        <p>{{ app.descripcion }}</p>
+        <a href="{% url 'qliksense:index'%}" class="icon-link">
+          {{ opciones.ir }}
+          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+{% endblock %}

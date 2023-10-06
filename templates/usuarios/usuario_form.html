@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags fields_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    {% if object %}
+    <h3>{% get_verbose_field_name object "username" %}: {{ object.username }}</h3>
+    {% endif %}
+    
+    <form method="post">
+      {% csrf_token %}
+      
+      {{ form|crispy }}
+
+      {% if aditional_form %}
+      {{ aditional_form|crispy }}
+      {% endif %}
+
+      <input type="submit" value="{{ opciones.submit }}" name="" class="btn btn-primary">
+    </form>
+{% endblock %}
