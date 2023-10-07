@@ -16,14 +16,9 @@ procede a crear dicho ambiente virtual y el proyecto base.
     >.venv\Scripts\activate.bat
 
 Se instala, dentro del ambiente virtual, django y su respectivo conector para 
-la base de datos. Además de las dependencias detalladas en el archivo 
-_dependencias.txt_
+la base de datos. 
 
     (venv) >pip install django mysqlclient
-
-*dependencias creadas por medio del comando __pip freeze > dependencias.txt__*
-
-*dependencias restauradas por mdeio del comando __pip install -r dependencias.txt__*
 
 Se inicia el proyecto django y se descarga esta aplicación base con las 
 configuraciones detalladas a continuación. Adicional es necesario crear 
@@ -43,11 +38,19 @@ Contenido del archivo *__(venv) ERPv3/static/configuraciones.cfg__*:
 
 	[sitio]
 	#Información general del sitio
-	nombre 		= ERPv2
+	nombre 		= ERPv3
 
-Desde la consola de Git se procede a clonar este repositorio
+Desde la consola de Git se procede a clonar este repositorio, en la raiz del 
+proyecto.
 
     $ git clone https://github.com/yop1986/evp3_usuarios.git usuarios
+
+Es necesario instalar las dependencias detalladas en el archivo 
+_dependencias.txt_
+
+	(venv) ERPv3>pip install -r usuarios/dependencias.txt
+
+*dependencias creadas por medio del comando __pip freeze > dependencias.txt__*
 
 #### Settings
 
@@ -110,6 +113,14 @@ siguiente informacion:
 	    messages.ERROR: "danger",
 	}
 
+	AUTH_USER_MODEL = 'usuarios.Usuario'
+	LOGIN_URL = reverse_lazy('usuarios:login')
+	LOGIN_REDIRECT_URL = reverse_lazy('usuarios:home')
+	LOGOUT_REDIRECT_URL = reverse_lazy('usuarios:home')
+
+	CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+	CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 	INFORMACION_APLICACIONES = {
 	    '<nombre_app>': {
 	        'nombre':       '<display>',
@@ -118,14 +129,6 @@ siguiente informacion:
 	        'imagen':       '<imagen>',
 	    },
 	}
-
-	AUTH_USER_MODEL = 'usuarios.Usuario'
-	LOGIN_URL = reverse_lazy('usuarios:login')
-	LOGIN_REDIRECT_URL = reverse_lazy('usuarios:home')
-	LOGOUT_REDIRECT_URL = reverse_lazy('usuarios:home')
-
-	CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-	CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 #### Urls
 
