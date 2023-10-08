@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 from django.urls import reverse_lazy
 
 from .models import Usuario
-from .forms import CustomUserCreationForm, CustomUserUpdateForm, PerfilForm, RegionalizacionForm, CargaArchivos
+from .forms import CustomUserCreationForm, CustomUserUpdateForm, PerfilForm
 
 from .personal_views import (PersonalTemplateView, PersonalListView, PersonalFormView, 
     PersonalUpdateView)

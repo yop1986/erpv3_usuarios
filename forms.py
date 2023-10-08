@@ -57,11 +57,3 @@ class PerfilForm(forms.ModelForm):
         widgets = {
             'fecha_nacimiento': DateInput(format='%Y-%m-%d'),
         }
-
-
-class CargaArchivos(forms.Form):
-    archivo     = forms.FileField(label=_('Archivo'))
-
-
-class RegionalizacionForm(forms.Form):
-    pais        = forms.CharField(label=_('País'), max_length=60)
