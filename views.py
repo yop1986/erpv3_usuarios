@@ -138,7 +138,7 @@ class UsuarioPasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, Passwor
         return context
 
 
-class UsuarioPerfil(PersonalTemplateView):
+class PerfilTemplateView(PersonalTemplateView):
     '''
         Muestra la información del perfil de usuario
     '''
@@ -149,12 +149,12 @@ class UsuarioPerfil(PersonalTemplateView):
     }
 
     def get_context_data(self):
-        context = super(UsuarioPerfil, self).get_context_data()
+        context = super(PerfilTemplateView, self).get_context_data()
         context['object'] = Usuario.objects.get(pk=self.request.user.id)
         return context
 
 
-class UsuarioActualizar(PersonalUpdateView):
+class PerfilUpdateView(PersonalUpdateView):
     '''
         Actualización del usuario que está logueado actualmente
         (Unicamente actualiza el propio perfil)
@@ -175,7 +175,7 @@ class UsuarioActualizar(PersonalUpdateView):
         return Usuario.objects.get(pk=self.request.user.id)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(UsuarioActualizar, self).get_context_data(*args, **kwargs)
+        context = super(PerfilUpdateView, self).get_context_data(*args, **kwargs)
         context['aditional_form'] = PerfilForm(instance=self.request.user.perfil)
         return context
 
@@ -189,10 +189,10 @@ class UsuarioActualizar(PersonalUpdateView):
             aditional_form.save()
             return HttpResponseRedirect(self.get_success_url())
         else:
-            return super(UsuarioActualizar, self).form_invalid(form)
+            return super(PerfilUpdateView, self).form_invalid(form)
 
 
-class UsuarioNuevoFormView(PersonalFormView):
+class UsuarioCreateView(PersonalFormView):
     template_name = 'usuarios/usuario_form.html'
     permission_required = 'usuarios.add_usuario'
     form_class = CustomUserCreationForm
@@ -208,7 +208,7 @@ class UsuarioNuevoFormView(PersonalFormView):
     def form_valid(self, form):
         if form.is_valid():
             form.save()
-        return super(UsuarioNuevoFormView, self).form_valid(form)
+        return super(UsuarioCreateView, self).form_valid(form)
 
 
 class UsuarioListView(PersonalListView):

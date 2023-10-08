@@ -26,9 +26,9 @@ urlpatterns = [
     path('usuarios/cambiar_contrasena/', views.UsuarioPasswordChangeView.as_view(), name='password_change'),
     # accounts/ password_change/done/ [name='password_change_done']
     
-    path('usuarios/perfil/', views.UsuarioPerfil.as_view(), name='perfil'),
-    path('usuarios/actualizar/', views.UsuarioActualizar.as_view(), name='actualizar'),
-    path('usuarios/nuevo/', views.UsuarioNuevoFormView.as_view(), name='crear'),
+    path('usuarios/perfil/', views.PerfilTemplateView.as_view(), name='perfil'),
+    path('usuarios/actualizar/', views.PerfilUpdateView.as_view(), name='actualizar'),
+    path('usuarios/nuevo/', views.UsuarioCreateView.as_view(), name='crear'),
     path('usuarios/listado/', views.UsuarioListView.as_view(), name='listar'),
     path('usuarios/actualizar/<uuid:pk>/', views.UsuarioUpdateView.as_view(), name='actualizar'),
 ]
