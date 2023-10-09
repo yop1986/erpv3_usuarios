@@ -35,12 +35,13 @@ def app_installed(apps):
 #    
 
 def home(request):
+    sitio  = gConfiguracion.get_value('sitio', 'nombre')
     info = {
         'general': {
-            'nombre_sitio': gConfiguracion.get_value('sitio', 'nombre')
+            'nombre_sitio': sitio
         },
         'contenido': {
-            'title': _('ERPv2'),
+            'title': _(sitio),
             'h1': _('Aplicaciones instaladas'),
         },
         'apps': app_installed(settings.INFORMACION_APLICACIONES),
