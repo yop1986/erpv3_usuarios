@@ -62,16 +62,16 @@ class PersonalFormView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessa
     pass
 
 class PersonalCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, PersonalContextMixin, CreateView):
-    pass
-
+    success_message = "Elemento creado correctamente"
+    
 class PersonalUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, PersonalContextMixin, UpdateView):
-    pass
-
+    success_message = "Elemento actualizado correctamente"
+    
 class PersonalListView(LoginRequiredMixin, PermissionRequiredMixin, PersonalContextMixin, ListView):
     pass
 
 class PersonalDetailView(LoginRequiredMixin, PermissionRequiredMixin, PersonalContextMixin, DetailView):
     pass
-
-class PersonalDeleteView(LoginRequiredMixin, PermissionRequiredMixin, PersonalContextMixin, DeleteView):
-    pass
+    
+class PersonalDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, PersonalContextMixin, DeleteView):
+    success_message = "Elemento eliminado correctamente"
