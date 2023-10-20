@@ -28,10 +28,22 @@ def get_verbose_field_name(instance, field_name):
     '''
     return instance._meta.get_field(field_name).verbose_name.title()
 
+# Utilizado en:
+#   - QlikSense
 @register.simple_tag
 def get_object_value(object, field):
     '''
     Se utiliza para obtener los valores de un objeto de forma dinámica
     '''
-    return getattr(object, field)
+    value = getattr(object, field)
+    return value if value else '-'
 
+# Utilizado en:
+#   - QlikSense
+@register.simple_tag
+def get_object_funcvalue(object, field):
+    '''
+    Se utiliza para obtener los valores de un objeto de forma dinámica
+    '''
+    value = getattr(object, field)()
+    return value if value else '-'
