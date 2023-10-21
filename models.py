@@ -26,6 +26,7 @@ class Perfil(models.Model):
     '''
         Información adicional del usuario
     '''
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     telefono    = models.CharField(_('Telefono'), max_length=12, blank=True)
     celular     = models.CharField(_('Celular'), max_length=12, blank=True)
     dpi         = models.CharField(_('DPI'), max_length=13, blank=True)
