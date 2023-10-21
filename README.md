@@ -69,6 +69,11 @@ siguiente informacion:
 	    'usuarios',
 	]
 
+    MIDDLEWARE = [
+        ...
+        'simple_history.middleware.HistoryRequestMiddleware',
+    ]
+
 	TEMPLATES = [
 	    {
 	        ...
