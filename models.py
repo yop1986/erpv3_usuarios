@@ -21,6 +21,8 @@ class Usuario(AbstractUser):
         #permissions = [
         #    ('create_usuario', 'Permite la creación de usuarios'),
         #]
+    def __str__(self):
+        return f'{self.get_full_name()} ({self.username})'
 
 class Perfil(models.Model):
     '''
