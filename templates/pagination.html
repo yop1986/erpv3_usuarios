@@ -5,7 +5,7 @@
   <ul class="pagination justify-content-end">
     
     <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
-      <a class="page-link" href="?{% if request.GET.valor %}valor={{ request.GET.valor }}&{% endif %}page={% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% endif %}" tabindex="-1" aria-disabled="true">Previous</a>
+      <a class="page-link" href="?{% if request.GET.valor %}valor={{ request.GET.valor }}&{% endif %}page={% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% endif %}" tabindex="-1" aria-disabled="true"><</a>
     </li>
     
     {% for i in page_obj.paginator.num_pages|times %}
@@ -13,7 +13,7 @@
     {% endfor %}
 
     <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
-      <a class="page-link" href="?{% if request.GET.valor %}valor={{ request.GET.valor }}&{% endif %}page={% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}">Next</a>
+      <a class="page-link" href="?{% if request.GET.valor %}valor={{ request.GET.valor }}&{% endif %}page={% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}">></a>
     </li>
   </ul>
 </nav>
