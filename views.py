@@ -13,12 +13,12 @@ from .forms import CustomUserCreationForm, CustomUserUpdateForm, PerfilForm
 
 from .personal_views import (PersonalTemplateView, PersonalListView, PersonalFormView, 
     PersonalUpdateView)
-from .personal_views import Configuraciones
+from .personal_views import Configuracion
 #
 # LECTURA DE ARCHIVO DE CONFIGURACIÓN
 #
 
-gConfiguracion = Configuraciones()
+gConfiguracion = Configuracion()
 
 def app_installed(apps):
     '''

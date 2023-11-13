@@ -12,9 +12,7 @@ from django.views.generic.detail import DetailView
 #
 # FUNCIONES GENERICAS
 #
-class Configuraciones():
-    config = configparser.ConfigParser()
-
+class Configuracion():
     def __init__(self, path=None, static=True, file='configuraciones.cfg'):
         '''
             Lee los archivos de configuración
@@ -24,6 +22,8 @@ class Configuraciones():
             static (bool):  determina si se utilia la ruta defaul static de django
             file (string):  nombre del archivo de configuración (con su extension)
         '''
+        self.config = configparser.ConfigParser()
+        
         if path is None:
             url = './' #ruta relativa; os.getcwd() #ruta completa;
 
@@ -31,7 +31,7 @@ class Configuraciones():
             url += fr'{staticfiles_storage.url(file)}'
         else:
             url += fr'{file}'
-        self.config.readfp(open(fr'{url}'))
+        self.config.read_file(open(f'{url}', encoding='utf-8'))
 
     def get_value(self, pSection, pVariable):
         '''
@@ -47,7 +47,7 @@ class Configuraciones():
         return self.config[f'{pSection}'][f'{pVariable}']
 
 ### ### ###
-gConfiguracion = Configuraciones()
+gConfiguracion = Configuracion()
 
 class PersonalContextMixin(ContextMixin):
     def get_context_data(self, *args, **kwargs):
