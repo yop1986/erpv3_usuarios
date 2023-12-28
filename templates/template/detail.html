@@ -23,7 +23,7 @@
         <div class="col">
           <strong>{{ campo.display }}</strong>
         </div>
-        {% if campo.valor %}
+        {% if 'valor' in campo %}
         <div class="col"> {{ campo.valor }}</div>
         {% elif campo.ul_lista %}
         <div class="col"> 
