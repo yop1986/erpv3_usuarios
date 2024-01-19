@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarScroll">
           <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
             {% block navbar_seccion_inicio %}{% endblock %}
-            {% block navbar %}{% endblock %}
+            {% block navbar %}{% include general.menu_app %}{% endblock %}
             {% block navbar_seccion_final %}{% endblock %}
           </ul>
           <ul class="navbar-nav justify-content-end my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">

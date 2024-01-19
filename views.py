@@ -11,8 +11,8 @@ from django.urls import reverse_lazy
 from .models import Usuario
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, PerfilForm
 
-from .personal_views import (PersonalTemplateView, PersonalListView, PersonalFormView, 
-    PersonalUpdateView)
+from .personal_views import (PersonalContextMixin, PersonalTemplateView, PersonalListView, 
+    PersonalFormView, PersonalUpdateView)
 from .personal_views import Configuracion
 #
 # LECTURA DE ARCHIVO DE CONFIGURACIÓN
@@ -38,7 +38,8 @@ def home(request):
     sitio  = gConfiguracion.get_value('sitio', 'nombre')
     info = {
         'general': {
-            'nombre_sitio': sitio
+            'nombre_sitio': sitio,
+            'menu_app': 'usuarios_menu.html',
         },
         'contenido': {
             'title': _(sitio),
@@ -52,8 +53,7 @@ def home(request):
     return render(request, 'home.html', info)
 
 
-
-class UsuarioLoginView(LoginView):
+class UsuarioLoginView(LoginView, PersonalContextMixin):
     template_name = "usuarios/login.html"
     extra_context = {
         'title': _('Página de ingreso'),
@@ -63,17 +63,14 @@ class UsuarioLoginView(LoginView):
         },
     }
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(UsuarioLoginView, self).get_context_data(*args, **kwargs)
-        context['general'] = {'nombre_sitio': gConfiguracion.get_value('sitio', 'nombre')}
-        return context
-
 
 class UsuarioLogoutView(LogoutView):
     pass
 
 
-class UsuarioPasswordResetView(PasswordResetView):
+# Inicia TODAS las acciones del reset
+
+class UsuarioPasswordResetView(PasswordResetView, PersonalContextMixin):
     template_name = "usuarios/password_reset_form.html"
     subject_template_name = "usuarios/password_reset_subject.txt"
     email_template_name = "usuarios/password_reset_email.html"
@@ -84,17 +81,12 @@ class UsuarioPasswordResetView(PasswordResetView):
         },
     }
 
-    def get_context_data(self):
-        context = super(UsuarioPasswordResetView, self).get_context_data()
-        context['general'] = {'nombre_sitio': gConfiguracion.get_value('sitio', 'nombre')}
-        return context
 
-
-class UsuarioPasswordResetDoneView(PasswordResetDoneView):
+class UsuarioPasswordResetDoneView(PasswordResetDoneView, PersonalContextMixin):
     template_name = "usuarios/password_reset_done.html"
 
 
-class UsuarioPasswordResetConfirmView(PasswordResetConfirmView):
+class UsuarioPasswordResetConfirmView(PasswordResetConfirmView, PersonalContextMixin):
     template_name = "usuarios/password_reset_confirm.html"
     success_url = reverse_lazy("usuarios:password_reset_complete")
     extra_context ={
@@ -103,13 +95,8 @@ class UsuarioPasswordResetConfirmView(PasswordResetConfirmView):
         },
     }
 
-    def get_context_data(self):
-        context = super(UsuarioPasswordResetConfirmView, self).get_context_data()
-        context['general'] = {'nombre_sitio': gConfiguracion.get_value('sitio', 'nombre')}
-        return context
 
-
-class UsuarioPasswordResetCompleteView(PasswordResetCompleteView):
+class UsuarioPasswordResetCompleteView(PasswordResetCompleteView, PersonalContextMixin):
     template_name = "usuarios/password_reset_complete.html"
     extra_context ={
         'opciones': {
@@ -117,13 +104,10 @@ class UsuarioPasswordResetCompleteView(PasswordResetCompleteView):
         },
     }
 
-    def get_context_data(self):
-        context = super(UsuarioPasswordResetCompleteView, self).get_context_data()
-        context['general'] = {'nombre_sitio': gConfiguracion.get_value('sitio', 'nombre')}
-        return context
+# Finaliza TODAS las acciones del reset
 
 
-class UsuarioPasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
+class UsuarioPasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView, PersonalContextMixin):
     template_name = 'usuarios/password_change_form.html'
     success_message = 'Contraseña cambiada correctamente'
     success_url = reverse_lazy('usuarios:perfil')
@@ -132,11 +116,6 @@ class UsuarioPasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, Passwor
             'submit': _('Cambiar'),
         },
     }
-
-    def get_context_data(self):
-        context = super(UsuarioPasswordChangeView, self).get_context_data()
-        context['general'] = {'nombre_sitio': gConfiguracion.get_value('sitio', 'nombre')}
-        return context
 
 
 class PerfilTemplateView(PersonalTemplateView):
@@ -149,8 +128,8 @@ class PerfilTemplateView(PersonalTemplateView):
         'title': _('Perfil'),
     }
 
-    def get_context_data(self):
-        context = super(PerfilTemplateView, self).get_context_data()
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context['object'] = Usuario.objects.get(pk=self.request.user.id)
         return context
 

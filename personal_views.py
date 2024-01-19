@@ -53,6 +53,7 @@ class PersonalContextMixin(ContextMixin):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['general'] = {'nombre_sitio': gConfiguracion.get_value('sitio', 'nombre')}
+        context['general']['menu_app'] = 'usuarios_menu.html'
         return context 
 
 class PersonalTemplateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, PersonalContextMixin, TemplateView):
