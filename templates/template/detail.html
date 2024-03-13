@@ -47,9 +47,11 @@
 
         <div class="col">
             {% for form in forms %}
+              {% if form.action %}
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ form.modal }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ form.display }}">
-                <img src="{% static 'images/qs_areatipolicencia.png' %}" alt="{{ form.display }}" height="25px">
+                <img src="{% static 'images/' %}{{ form.link_img }}" alt="{{ form.display }}" height="25px">
               </button>
+              {% endif %}
             {% endfor %}
 
             {% if object.url_update %}

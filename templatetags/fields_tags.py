@@ -1,6 +1,9 @@
+from django import template
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
-from django import template
+from datetime import date
+
 register = template.Library()
 
 @register.filter
@@ -31,19 +34,22 @@ def get_verbose_field_name(instance, field_name):
 # Utilizado en:
 #   - QlikSense
 @register.simple_tag
-def get_object_value(object, field):
+def get_object_value(pObject, pField, pFormat=None):
     '''
     Se utiliza para obtener los valores de un objeto de forma dinámica
     '''
-    value = getattr(object, field)
-    return value if value else '-'
+    value = getattr(pObject, pField)
+    if isinstance(value, date):
+        formato = pFormat if pFormat else "%d/%m/%Y"
+        return value.strftime(formato)
+    return mark_safe(value) if value else '-'
 
 # Utilizado en:
 #   - QlikSense
 @register.simple_tag
-def get_object_funcvalue(object, field):
+def get_object_funcvalue(pObject, pField):
     '''
     Se utiliza para obtener los valores de un objeto de forma dinámica
     '''
-    value = getattr(object, field)()
-    return value if value else '-'
+    value = getattr(pObject, pField)()
+    return mark_safe(value) if value else '-'
