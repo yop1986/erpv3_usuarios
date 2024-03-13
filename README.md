@@ -11,14 +11,25 @@ virtual con el objetivo de aislar el proyecto de otras instalaciones.
 Dentro de una carpeta creada específica para este proyecto (ERPv3) se 
 procede a crear dicho ambiente virtual y el proyecto base.
 
-    >pip install virtualenv
+    >pip install virtualenv pip-review
     >virtualenv .venv
     >.venv\Scripts\activate.bat
 
-Se instala, dentro del ambiente virtual, django y su respectivo conector para 
-la base de datos. 
+Dentro de la carpeta creada para el poryecto, se procede a utilizar Git para 
+clonar este repositorio (base) para todos los aplicativos del ERP. 
 
-    (venv) >pip install django mysqlclient
+	$git clone https://github.com/yop1986/evp3_usuarios.git usuarios
+
+Se instalan todas las dependencias necesarias para estos proyectos incluidas
+en el repositorio y se actualiza.
+
+	>pip install -r usuarios\dependencias.txt
+	>pip-review # Muestra paquetes desactualizados
+	>pip-review --auto # Instala todas las actualizaciones
+	>pip-review --interactive # Pregunta cada paquete que se desee actualizar
+
+*django ckeditor https://pypi.org/project/django-ckeditor-5//*
+*dependencias creadas por medio del comando __pip freeze > dependencias.txt__*
 
 Se inicia el proyecto django y se descarga esta aplicación base con las 
 configuraciones detalladas a continuación. Adicional es necesario crear 
@@ -40,17 +51,6 @@ Contenido del archivo *__(venv) ERPv3/static/configuraciones.cfg__*:
 	#Información general del sitio
 	nombre 		= ERPv3
 
-Desde la consola de Git se procede a clonar este repositorio, en la raiz del 
-proyecto.
-
-    $ git clone https://github.com/yop1986/evp3_usuarios.git usuarios
-
-Es necesario instalar las dependencias detalladas en el archivo 
-_dependencias.txt_
-
-	(venv) ERPv3>pip install -r usuarios/dependencias.txt
-
-*dependencias creadas por medio del comando __pip freeze > dependencias.txt__*
 
 #### Settings
 
@@ -66,6 +66,8 @@ siguiente informacion:
 		...
 	    'crispy_forms',
 	    'crispy_bootstrap5',
+	    'django_ckeditor_5',
+	    
 	    'usuarios',
 	]
 
@@ -98,17 +100,29 @@ siguiente informacion:
 	USE_I18N = True
 	USE_TZ = False
 
-	STATIC_ROOT = BASE_DIR / "static"
+	STATIC_URL = '/static/'
 	#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+	STATIC_ROOT = BASE_DIR / "static"
 	#STATICFILES_DIRS = [ BASE_DIR / "static", ]
+
+	MEDIA_URL = '/media/'
+	#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+	MEDIA_ROOT = BASE_DIR / "media"
+
 
 	###
 	### Servidor de correos
 	###
 	if DEBUG:
 	    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+	    #Para guardar los correos de prueba en una ubicacion (hay que crear la ruta indicada)
+	    #EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+	    #EMAIL_FILE_PATH = 'C://ubicacion//correos//' # ruta para genrear archivos
 	else:
-	    pass
+	    EMAIL_USE_TLS = False
+	    EMAIL_USE_SSL = False
+	    EMAIL_HOST = '<ip | nombre>'
+	    EMAIL_PORT = <puerto>
 
 	###
 	### Variables Globales
@@ -126,6 +140,94 @@ siguiente informacion:
 	CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 	CRISPY_TEMPLATE_PACK = "bootstrap5"
 
+	customColorPalette = [
+	        {
+	            'color': 'hsl(4, 90%, 58%)',
+	            'label': 'Red'
+	        },
+	        {
+	            'color': 'hsl(340, 82%, 52%)',
+	            'label': 'Pink'
+	        },
+	        {
+	            'color': 'hsl(291, 64%, 42%)',
+	            'label': 'Purple'
+	        },
+	        {
+	            'color': 'hsl(262, 52%, 47%)',
+	            'label': 'Deep Purple'
+	        },
+	        {
+	            'color': 'hsl(231, 48%, 48%)',
+	            'label': 'Indigo'
+	        },
+	        {
+	            'color': 'hsl(207, 90%, 54%)',
+	            'label': 'Blue'
+	        },
+	    ]
+
+	  CKEDITOR_5_CONFIGS = {
+	    'default': {
+	        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+	                    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
+
+	    },
+	    'extends': {
+	        'blockToolbar': [
+	            'paragraph', 'heading1', 'heading2', 'heading3',
+	            '|',
+	            'bulletedList', 'numberedList',
+	            '|',
+	            'blockQuote',
+	        ],
+	        'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
+	        'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
+	                    'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
+	                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
+	                    'insertTable',],
+	        'image': {
+	            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
+	                        'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
+	            'styles': [
+	                'full',
+	                'side',
+	                'alignLeft',
+	                'alignRight',
+	                'alignCenter',
+	            ]
+
+	        },
+	        'table': {
+	            'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
+	            'tableProperties', 'tableCellProperties' ],
+	            'tableProperties': {
+	                'borderColors': customColorPalette,
+	                'backgroundColors': customColorPalette
+	            },
+	            'tableCellProperties': {
+	                'borderColors': customColorPalette,
+	                'backgroundColors': customColorPalette
+	            }
+	        },
+	        'heading' : {
+	            'options': [
+	                { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
+	                { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
+	                { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
+	                { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+	            ]
+	        }
+	    },
+	    'list': {
+	        'properties': {
+	            'styles': 'true',
+	            'startIndex': 'true',
+	            'reversed': 'true',
+	        }
+	    }
+	}
+
 	INFORMACION_APLICACIONES = {
 	    '<nombre_app>': {
 	        'nombre':       '<display>',
@@ -134,12 +236,13 @@ siguiente informacion:
 	        'imagen':       '<imagen>',
 	    },
 	}
-
 #### Urls
 
 Posterior a esta configuracion es necesario agregar las urls al proyecto base __< Base >/urls.py__
 
 	from django.urls import path, include
+	
+    path("ckeditor5/", include('django_ckeditor_5.urls'), name="ck_editor_5_upload_file"),
     path('', include('usuarios.urls')),
 
 #### Comandos adicionales de Django
@@ -162,3 +265,31 @@ Cuando se instale en producción se debe generar otra clave y Debug = False
 SECRET_KEY = 'django-insecure--yy^#vtem@522nqsw4)69-ddtc_^xn&p#sl74$&jkw1^g9azy8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+
+# Problemas con PIP
+## Configuracion de proxy
+
+Agregar el proxy: 
+	pip config --global set global.proxy=<usuario>:<contrañeña>@<direraccion>:<puerto>
+
+Quitar el proxy
+	pip config --global unset global.proxy
+
+## Configuracion de sitio de paquetes seguros
+
+Cuando se intenta una instalación de software de los repositorios oficiales, se muestra el mensaje
+
+	WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:992)'))': /simple/websocket/
+
+Una opcion para solvertar este problema es agregar a sitios seguros de pip el origen de las aplicaciones. Esto se hace modificando el archivo pip.ini, usualmente en alguna de estas rutas:
+
+- C:\ProgramData\pip\pip.ini
+- %appdata%\Roaming\pip
+
+Y se agrega esto en el archivo:
+
+	[global]
+	trusted-host = pypi.python.org
+    	           pypi.org
+        	       files.pythonhosted.org
