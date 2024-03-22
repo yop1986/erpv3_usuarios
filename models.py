@@ -38,8 +38,7 @@ class Perfil(models.Model):
     dpi     = models.CharField(_('DPI'), max_length=13, blank=True)
     nit     = models.CharField(_('Nit'), max_length=10, blank=True)
     fecha_nacimiento = models.DateField(_('Fecha de nacimiento'), null=True, blank=True)
-    fecha_ingreso = models.DateField(_('Fecha de ingreso'))
-
+    
     usuario = models.OneToOneField(Usuario, on_delete = models.CASCADE)
 
     edad_description = _('Edad')

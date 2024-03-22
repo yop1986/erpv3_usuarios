@@ -54,7 +54,12 @@
               {% endif %}
 
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'usuarios:logout' %}">{% translate "Desconectar" %}</a></li>
+                <li>
+                    <form method="post" action="{% url 'usuarios:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item">{% translate "Desconectar" %}</button>
+                    </form>
+                </li>
               </ul>
             </li>
             {% else %}
