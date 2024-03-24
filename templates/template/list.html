@@ -9,7 +9,8 @@
           <h1>{{ title }}</h1>
         </div>
         <div class="col text-center">
-        {% if create %}
+          
+        {% if permisos.create and create %}
         <a href="{{ create.url }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ create.display }}">
           <img src="{% static 'images/qs_create.png' %}" alt="{{ create.display }}" height="42px">
         </a>
@@ -78,17 +79,17 @@
           <th scope="col">
             {% if object.url_detail %}
             <a href="{{ object.url_detail }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.detail }}">
-              <img src="{% static 'images/qs_detail.png' %}" alt="{{ opciones.detail }}" height="25px">
+              <img src="{% static 'images/' %}{{ opciones.detail_img }}" alt="{{ opciones.detail }}" height="25px">
             </a>
             {% endif %}
-            {% if object.url_update %}
+            {% if permisos.update and object.url_update %}
             <a href="{{ object.url_update }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.update }}">
-              <img src="{% static 'images/qs_update.png' %}" alt="{{ opciones.update }}" height="25px">
+              <img src="{% static 'images/' %}{{ opciones.update_img}}" alt="{{ opciones.update }}" height="25px">
             </a>
             {% endif %}
-            {% if object.url_delete %}
+            {% if permisos.delete and object.url_delete %}
             <a href="{{ object.url_delete }}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.delete }}">
-              <img src="{% static 'images/qs_delete.png' %}" alt="{{ opciones.delete }}" height="25px">
+              <img src="{% static 'images/' %}{{ opciones.delete_img }}" alt="{{ opciones.delete }}" height="25px">
             </a>
             {% endif %}
           </th>
