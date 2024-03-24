@@ -28,6 +28,17 @@ en el repositorio y se actualiza.
 	>pip-review --auto # Instala todas las actualizaciones
 	>pip-review --interactive # Pregunta cada paquete que se desee actualizar
 
+Paquetes base necesarios:
+
+- pip-review
+- python-dateutil
+- django
+- crispy-bootstrap5
+- django-ckeditor-5
+- django-simple-history
+- mysqlclient
+- websocket-client
+
 *django ckeditor https://pypi.org/project/django-ckeditor-5//*
 *dependencias creadas por medio del comando __pip freeze > dependencias.txt__*
 
@@ -45,7 +56,7 @@ sistema bajo el formato:
 	[Encabezado]
 	variable 	= valor
 
-Contenido del archivo *__(venv) ERPv3/static/configuraciones.cfg__*:
+Contenido del archivo *__(venv) < Base >/static/configuraciones.cfg__*:
 
 	[sitio]
 	#Información general del sitio
@@ -54,7 +65,7 @@ Contenido del archivo *__(venv) ERPv3/static/configuraciones.cfg__*:
 
 #### Settings
 
-Es necesario modificar el archivo **settings.py** del proyecto general con la
+Es necesario modificar el archivo **< Base >/settings.py** del proyecto general con la
 siguiente informacion:
 
 	from django.contrib import messages
