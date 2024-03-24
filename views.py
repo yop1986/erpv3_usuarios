@@ -1,8 +1,12 @@
+import operator
+from functools import reduce
+
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetConfirmView, 
     PasswordResetView, PasswordResetDoneView, PasswordResetCompleteView, PasswordChangeView)
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.translation import gettext as _
@@ -211,15 +215,13 @@ class UsuarioListView(PersonalListView):
         valor_busqueda = self.request.GET.get('valor')
         if valor_busqueda:
             if 'mail:' in valor_busqueda:
-                return Usuario.objects.filter(email__icontains=valor_busqueda[5:]).order_by('email')
+                return Usuario.objects.filter(email__icontains=valor_busqueda[5:]).order_by('username')
             elif 'name:' in valor_busqueda:
-                return Usuario.objects.filter(
-                    busqueda_nombres(
-                        campos=['first_name__icontains', 'last_name__icontains'], 
-                        valores=valor_busqueda[5:].split(' ')),
-                    ).order_by('first_name', 'last_name')
+                valores = valor_busqueda[5:].split(' ')
+                query_filter = reduce(operator.or_, (Q(first_name__icontains=f'{valor}')|Q(last_name__icontains=f'{valor}') for valor in valores))
+                return Usuario.objects.filter(query_filter).order_by('username')
             else:
-                return Usuario.objects.filter(username__icontains=valor_busqueda).order_by('username')
+                return Usuario.objects.filter(username__icontains = valor_busqueda).order_by('username')
         else:
             return super(UsuarioListView, self).get_queryset()
 
