@@ -25,7 +25,7 @@
         </div>
         {% if 'valor' in campo %}
         <div class="col"> {{ campo.valor }}</div>
-        {% elif campo.ul_lista %}
+        {% elif 'ul_lista' in campo %}
         <div class="col"> 
           <ul>
           {% for elemento in campo.ul_lista %}
