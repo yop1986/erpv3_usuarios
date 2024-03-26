@@ -10,7 +10,7 @@
       <div class="modal-body">
         <form method="post" action="{{ form.action }}" autocomplete="off" >
           {% csrf_token %}
-          
+          {{ form.form.media }}
           {{ form.form|crispy }}
 
         <div class="modal-footer">
