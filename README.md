@@ -60,8 +60,11 @@ Contenido del archivo *__(venv) < Base >/static/configuraciones.cfg__*:
 
 	[sitio]
 	#Información general del sitio
-	nombre 		= ERPv3
+	nombre 			= ERPv3
+	formato_fecha 	= %d/%m/%Y
 
+
+* el formato de las fechas se realiza con base en la tabla [https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes](Fechas python)
 
 #### Settings
 
