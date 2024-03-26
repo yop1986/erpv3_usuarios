@@ -68,6 +68,7 @@ Contenido del archivo *__(venv) < Base >/static/configuraciones.cfg__*:
 Es necesario modificar el archivo **< Base >/settings.py** del proyecto general con la
 siguiente informacion:
 
+	import os
 	from django.contrib import messages
 	from django.urls import reverse_lazy
 	from django.utils.translation import gettext_lazy as _
@@ -112,13 +113,13 @@ siguiente informacion:
 	USE_TZ = False
 
 	STATIC_URL = '/static/'
-	#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-	STATIC_ROOT = BASE_DIR / "static"
+	STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+	#STATIC_ROOT = BASE_DIR / "static"
 	#STATICFILES_DIRS = [ BASE_DIR / "static", ]
 
 	MEDIA_URL = '/media/'
-	#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-	MEDIA_ROOT = BASE_DIR / "media"
+	MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+	#MEDIA_ROOT = BASE_DIR / "media"
 
 
 	###
@@ -269,13 +270,30 @@ Posterior a esta configuracion es necesario agregar las urls al proyecto base __
 
 ### Configuración del Ambiente
 
+Configuración del archivo 'setting.py' para un ambiente de producción local
 
-Cuando se instale en producción se debe generar otra clave y Debug = False
+	SECRET_KEY = 'django-insecure--yy^#vtem@522nqsw4)69-ddtc_^xn&p#sl74$&jkw1^g9azy8'
+	ALLOWED_HOSTS = ['*']
+	DEBUG = True
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--yy^#vtem@522nqsw4)69-ddtc_^xn&p#sl74$&jkw1^g9azy8'
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+Opcionalmente se puede crear un archivo bat para ejecutar fácilmente el servidor con una configuración
+similar a la siguiente:
+
+	@echo off
+	.venv\Scripts\activate.bat&&python manage.py runserver 10.160.163.16:8080
+
+#### Instalación y configuarción software
+
+Si solo se dese utilizar el mismo servidor de django, para servir los archivos static se instala
+dj-static
+
+	pip install dj-static
+
+Y se modifica el archivo **'< base >/wsgi.py'** agregando al archivo creado en por defecto.
+
+	# If using dj-static:
+	from dj_static import Cling
+	application = Cling(get_wsgi_application())
 
 
 # Problemas con PIP
