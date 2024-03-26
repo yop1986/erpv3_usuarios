@@ -4,6 +4,9 @@ from django.utils.translation import gettext as _
 
 from datetime import date
 
+from usuarios.personal_views import Configuracion
+
+conf = Configuracion()
 register = template.Library()
 
 @register.filter
@@ -39,8 +42,9 @@ def get_object_value(pObject, pField, pFormat=None):
     Se utiliza para obtener los valores de un objeto de forma dinámica
     '''
     value = getattr(pObject, pField)
+    formato = conf.get_value('sitio', 'formato_fecha')
     if isinstance(value, date):
-        formato = pFormat if pFormat else "%d/%m/%Y"
+        formato = pFormat if pFormat else formato
         return value.strftime(formato)
     return mark_safe(value) if value else '-'
 

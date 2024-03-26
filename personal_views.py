@@ -22,7 +22,7 @@ class Configuracion():
             static (bool):  determina si se utilia la ruta defaul static de django
             file (string):  nombre del archivo de configuración (con su extension)
         '''
-        self.config = configparser.ConfigParser()
+        self.config = configparser.RawConfigParser()
         
         if path is None:
             url = './' #ruta relativa; os.getcwd() #ruta completa;
@@ -44,7 +44,7 @@ class Configuracion():
             RETURN
             Valor de la variable indicada
         '''
-        return self.config[f'{pSection}'][f'{pVariable}']
+        return self.config[pSection][pVariable]
 
 ### ### ###
 gConfiguracion = Configuracion()
