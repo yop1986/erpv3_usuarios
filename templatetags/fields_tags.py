@@ -41,7 +41,6 @@ def get_object_value(pObject, pField, pFormat=None):
     if isinstance(value, datetime):
         formato = conf.get_value('sitio', 'formato_fechahora')
         formato = pFormat if pFormat else formato
-        print(f'{formato} :: {value}')
         return value.strftime(f'{formato}')
     elif isinstance(value, date):
         formato = conf.get_value('sitio', 'formato_fecha')
