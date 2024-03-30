@@ -10,12 +10,12 @@
         <th scope="col">#</th>
         {% endif %}
 
-        {% for campo in table.campos %}
+        {% for campo in table.lista %}
           <th scope="col">{% get_verbose_field_name table.object_list.0 campo %}</th>
         {% endfor %}
 
-        {% for campo in table.campos_extra %}
-          <th scope="col">{{ campo.nombre }}</th>
+        {% for extra in table.campos_extra %}
+          <th scope="col">{{ extra.nombre }}</th>
         {% endfor %}
 
         {% if table.opciones %}
@@ -37,19 +37,27 @@
         </th>
         {% endif %}
 
-        {% for campo in table.campos %}
+        {% for campo in table.lista %}
         <td>{% get_object_value object campo %}</td>
         {% endfor %}
 
-        {% for campo in table.campos_extra %}
-        {% if campo.value %}
-        <td>{% get_object_value object campo %}</td>
-        {% elif campo.funcion %}
-        <td>{% get_object_funcvalue object campo.funcion %}</th>
-        {% else%}
-        <td>{{ campo.constante }}</td>
-        {% endif %}
-        {% endfor %}
+        {% for extra in table.campos_extra %}
+          <td>
+          {% if extra.valor %}
+            {% get_object_value object extra.valor %}
+          {% elif extra.funcion %}
+            {% get_object_funcvalue object extra.funcion %}
+          {% elif extra.ul_lista %}
+          <ul>
+            {% for elemento in extra.ul_lista %}
+            <li> {{ elemento }} </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            {{ extra.constante }}
+          {% endif %}
+          </td>
+          {% endfor %}
 
         {% if table.opciones %}
         <th scope="col">

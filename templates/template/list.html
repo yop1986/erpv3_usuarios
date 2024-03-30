@@ -11,18 +11,20 @@
         <div class="col text-center">
           
         {% if permisos.create and create %}
-        <a href="{{ create.url }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ create.display }}">
-          <img src="{% static 'images/qs_create.png' %}" alt="{{ create.display }}" height="42px">
-        </a>
+          <a href="{{ create.url }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ create.display }}">
+            <img src="{% static 'images/' %}{{ create.img }}" alt="{{ create.display }}" height="42px">
+          </a>
         {% endif %}
         {% if botones_extra %}
-        {% for boton in botones_extra %}
-        <a href="{{ boton.url }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ boton.display }}">
-          <img src="{% static 'images/' %}{{ boton.img }}" alt="{{ boton.display }}" height="42px">
-        </a>
-        </div>
-        {% endfor %}
+          {% for boton in botones_extra.0 %}
+            {% if boton.permiso %}
+              <a href="{{ boton.url }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ boton.display }}" {% if boton.target %}target="{{ boton.target }}"{% endif %}>
+                <img src="{% static 'images/' %}{{ boton.img }}" alt="{{ boton.display }}" height="42px">
+              </a>
+            {% endif %}
+          {% endfor %}
         {% endif %}
+        </div>
       </div>
 
 
@@ -38,8 +40,8 @@
           <th scope="col">{% get_verbose_field_name object_list.0 campo %}</th>
           {% endfor %}
 
-          {% for campo in campos_extra %}
-          <th scope="col">{{ campo.nombre }}</th>
+          {% for extra in campos_extra %}
+          <th scope="col">{{ extra.nombre }}</th>
           {% endfor %}
 
           {% if campos.opciones %}
@@ -65,18 +67,26 @@
           <td>{% get_object_value object campo %}</td>
           {% endfor %}
 
-          {% for campo in campos_extra %}
-          {% if campo.valor %}
-          <td>{% get_object_value object campo.valor %}</th>
-          {% elif campo.funcion %}
-          <td>{% get_object_funcvalue object campo.funcion %}</th>
-          {% else %}
-          <td>{{ campo.constante }}</td>
-          {% endif %}
+          {% for extra in campos_extra %}
+            <td>
+            {% if extra.valor %}
+              {% get_object_value object extra.valor %}
+            {% elif extra.funcion %}
+              {% get_object_funcvalue object extra.funcion %}
+            {% elif extra.ul_lista %}
+            <ul>
+              {% for elemento in extra.ul_lista %}
+              <li> {{ elemento }} </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+              {{ extra.constante }}
+            {% endif %}
+            </td>
           {% endfor %}
 
           {% if campos.opciones %}
-          <th scope="col">
+          <td scope="col">
             {% if object.url_detail %}
             <a href="{{ object.url_detail }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.detail }}">
               <img src="{% static 'images/' %}{{ opciones.detail_img }}" alt="{{ opciones.detail }}" height="25px">
@@ -92,7 +102,7 @@
               <img src="{% static 'images/' %}{{ opciones.delete_img }}" alt="{{ opciones.delete }}" height="25px">
             </a>
             {% endif %}
-          </th>
+          </td>
           {% endif %}
         </tr>
         {% endfor %}
