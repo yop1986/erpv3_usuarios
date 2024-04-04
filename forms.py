@@ -16,7 +16,7 @@ class DateInput(forms.DateInput):
 class CustomUserCreationForm(UserCreationForm): 
     class Meta:
         model = Usuario
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ('username', 'first_name', 'last_name', 'email', 'groups')
 
     def clean_username(self):  
         username = self.cleaned_data['username'].lower()  
@@ -40,7 +40,7 @@ class CustomUserUpdateForm(forms.ModelForm):
     '''
     class Meta:
         model = Usuario
-        fields = ('first_name', 'last_name', 'email', 'is_active')
+        fields = ('first_name', 'last_name', 'email', 'groups', 'is_active')
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower()  

@@ -3,7 +3,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from simple_history.models import HistoricalRecords
 
 
-class Usuario(AbstractUser):
+class Usuario(AbstractUser, PermissionsMixin):
     '''
         Información propia del usuario, asociada a la cuenta y accesos
     '''
@@ -32,6 +32,9 @@ class Usuario(AbstractUser):
     def __str__(self):
         return f'{self.get_full_name()} ({self.username})'
 
+    def get_grupos(self):
+        return list(self.groups.all())
+    
 class Perfil(models.Model):
     '''
         Información adicional del usuario

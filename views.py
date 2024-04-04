@@ -67,13 +67,10 @@ class UsuarioLoginView(LoginView, PersonalContextMixin):
         },
     }
 
-
 class UsuarioLogoutView(LogoutView):
     pass
 
-
 # Inicia TODAS las acciones del reset
-
 class UsuarioPasswordResetView(PasswordResetView, PersonalContextMixin):
     template_name = "usuarios/password_reset_form.html"
     subject_template_name = "usuarios/password_reset_subject.txt"
@@ -85,10 +82,8 @@ class UsuarioPasswordResetView(PasswordResetView, PersonalContextMixin):
         },
     }
 
-
 class UsuarioPasswordResetDoneView(PasswordResetDoneView, PersonalContextMixin):
     template_name = "usuarios/password_reset_done.html"
-
 
 class UsuarioPasswordResetConfirmView(PasswordResetConfirmView, PersonalContextMixin):
     template_name = "usuarios/password_reset_confirm.html"
@@ -99,7 +94,6 @@ class UsuarioPasswordResetConfirmView(PasswordResetConfirmView, PersonalContextM
         },
     }
 
-
 class UsuarioPasswordResetCompleteView(PasswordResetCompleteView, PersonalContextMixin):
     template_name = "usuarios/password_reset_complete.html"
     extra_context ={
@@ -107,12 +101,10 @@ class UsuarioPasswordResetCompleteView(PasswordResetCompleteView, PersonalContex
             'ingresar': _('Ingresar')
         },
     }
-
 # Finaliza TODAS las acciones del reset
 
-
 class UsuarioPasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView, PersonalContextMixin):
-    template_name = 'usuarios/password_change_form.html'
+    template_name = 'template/forms.html'
     success_message = 'Contraseña cambiada correctamente'
     success_url = reverse_lazy('usuarios:perfil')
     extra_context = {
@@ -120,7 +112,6 @@ class UsuarioPasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, Passwor
             'submit': _('Cambiar'),
         },
     }
-
 
 class PerfilTemplateView(PersonalTemplateView):
     '''
@@ -136,7 +127,6 @@ class PerfilTemplateView(PersonalTemplateView):
         context = super().get_context_data(*args, **kwargs)
         context['object'] = Usuario.objects.get(pk=self.request.user.id)
         return context
-
 
 class PerfilUpdateView(PersonalUpdateView):
     '''
@@ -175,7 +165,6 @@ class PerfilUpdateView(PersonalUpdateView):
         else:
             return super(PerfilUpdateView, self).form_invalid(form)
 
-
 class UsuarioCreateView(PersonalFormView):
     template_name = 'usuarios/usuario_form.html'
     permission_required = 'usuarios.add_usuario'
@@ -194,7 +183,6 @@ class UsuarioCreateView(PersonalFormView):
             form.save()
         return super(UsuarioCreateView, self).form_valid(form)
 
-
 class UsuarioListView(PersonalListView):
     '''
         Lista de usuarios registrados en la aplicacion
@@ -207,6 +195,7 @@ class UsuarioListView(PersonalListView):
         'title': _('Lista de usuarios'),
         'opciones': {
             'etiqueta': _('Opciones'),
+            'ver': _('Ver'),
             'editar': _('Editar'),
         },
     }
@@ -224,7 +213,6 @@ class UsuarioListView(PersonalListView):
                 return Usuario.objects.filter(username__icontains = valor_busqueda).order_by('username')
         else:
             return super(UsuarioListView, self).get_queryset()
-
 
 class UsuarioUpdateView(PersonalUpdateView):
     '''
@@ -260,3 +248,23 @@ class UsuarioUpdateView(PersonalUpdateView):
             return HttpResponseRedirect(self.get_success_url())
         else:
             return super(UsuarioUpdateView, self).form_invalid(form)
+
+
+class UsuarioDetailView(PersonalTemplateView):
+    '''
+        Muestra la información del perfil de cualqueir usuario
+    '''
+    template_name = 'usuarios/usuario_detail.html'
+    permission_required = 'usuarios.view_usuario'
+    extra_context ={
+        'title': _('Usuario'),
+        'opciones': _('Opciones'),
+    }
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        usuario = Usuario.objects.get(pk=kwargs['pk'])
+        context['object'] = usuario
+        context['grupos'] = { 'nombre': _('Grupos'), 'ul': usuario.get_grupos() }
+        
+        return context
