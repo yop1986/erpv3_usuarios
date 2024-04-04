@@ -79,6 +79,10 @@
               <li> {{ elemento }} </li>
               {% endfor %}
             </ul>
+            {% elif extra.url %}
+            <a class="btn btn-primary btn-sm" href="{% get_object_funcvalue object extra.url %}" target="{{ extra.target }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ extra.nombre }}">
+              <img src="{% static 'images/' %}{{ extra.img }}" alt= "{{ extra.nombre }}" height="25px">
+            </a>
             {% else %}
               {{ extra.constante }}
             {% endif %}

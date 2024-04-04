@@ -15,6 +15,9 @@ Template: list.html
         valor       se evalúa en primer lugar y se muestra si lo tiene (con un formato definido)
         funcion     se evalúa en segundo y ejecuta la funcion mostrando el valor devuelto
         ul_lista    se evalúa y se muestra la lista correspondiente
+        url         envía un enlace
+        target      (propio de url) para determinar donde se abre el enlace
+        img         (proio de url) para el boton
         constante   se evalúa como default y se muestra (sin formato)
     opciones
         detail      display para la opcion ver detalle del objeto
@@ -53,6 +56,9 @@ Template: detail.html
         valor       se evalúa en primer lugar y se muestra si lo tiene (con un formato definido)
         funcion     se evalúa en segundo y ejecuta la funcion mostrando el valor devuelto
         ul_lista    se evalúa y se muestra la lista correspondiente
+        url         envía un enlace
+        target      (propio de url) para determinar donde se abre el enlace
+        img         (proio de url) para el boton
         constante   se evalúa como default y se muestra (sin formato)
     opciones
         update      display para la opcion actualizar del objeto
