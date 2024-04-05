@@ -192,12 +192,16 @@ class UsuarioListView(PersonalListView):
     ordering = ('username')
     paginate_by = 12
     extra_context ={
-        'title': _('Lista de usuarios'),
+        'title':    _('Lista de usuarios'),
         'opciones': {
             'etiqueta': _('Opciones'),
-            'ver': _('Ver'),
-            'editar': _('Editar'),
+            'ver':      _('Ver'),
+            'editar':   _('Editar'),
         },
+        'busqueda': {
+            'buscar':   _('Buscar'),
+            'limpiar':  _('Limpiar'),
+        }
     }
 
     def get_queryset(self):

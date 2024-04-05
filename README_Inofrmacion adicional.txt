@@ -1,6 +1,9 @@
 Template: list.html
     * object_list es el listado de objetos
     title       titulo de la hoja
+    busqueda    habilita el cuadro de busqueda
+        buscar      texto del boton buscar
+        limpiar     texto del boton limpiar
     create 
         url         url del formulario
         display     valor que se muestra si no hay imagen y tooltip
@@ -41,12 +44,18 @@ Template: list.html
 Template: forms.html
     * object es el objeto que se modifica
     title       titulo de la hoja
+    busqueda    habilita el cuadro de busqueda
+        buscar      texto del boton buscar
+        limpiar     texto del boton limpiar
     object      mensaje o información que se dese mostrar en el formulario
     form        formulario pricipal
     aditional_form formulario adicional si hubiera (formularios compuestos)
 Template: detail.html
     * object es el objeto que se muestra
     title       titulo de la hoja
+    busqueda    habilita el cuadro de busqueda
+        buscar      texto del boton buscar
+        limpiar     texto del boton limpiar
     campos
         lista   listado de campos que se desea mostrar de forma individual en la vista
         opciones    titulo a desplegar de las opciones, si no hay valor no las muestra
@@ -104,12 +113,18 @@ Template: detail.html
 Template: delete_confirmation.html
     * object es el objeto que se muestra
     title       titulo de la hoja
+    busqueda    habilita el cuadro de busqueda
+        buscar      texto del boton buscar
+        limpiar     texto del boton limpiar
     form        formulario de eliminación
     opciones
         confirmación    mensaje de confirmación
         submit          texto que se mostrará en el boton enviar del formulario
 Template: templatedetail_multiple_objects.html
     title       titulo de la hoja
+    busqueda    habilita el cuadro de busqueda
+        buscar      texto del boton buscar
+        limpiar     texto del boton limpiar
     objects         (arreglo)
         object      objeto con la información a mostrar
         campos
@@ -165,7 +180,3 @@ Template: templatedetail_multiple_objects.html
             delete  define el permiso para el boton eliminar (opciones)
         next        se utiliza para definir un redireccionamiento posterior a enviar el formulario
  ***manual_tables   (subsección agregada al detail)
-
-
-def get_queryset(self):
-        return Estado.objects.none()

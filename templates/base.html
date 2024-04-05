@@ -11,7 +11,7 @@
     {% block head %}{% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #EBFAFF;">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'usuarios:home' %}">
           <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> {{ general.nombre_sitio }}
@@ -29,7 +29,7 @@
             {% if user.is_authenticated %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ user.username }}
+                {{ user.username }} <img src="{% static 'images/usuario_img.png' %}"  height="25px" {% if not busqueda %} style="margin-left: 1.5em; margin-right: 1.5em" {% endif %}>
               </a>
               <ul class="dropdown-menu">
               {% if request.user.is_staff %}
@@ -71,11 +71,13 @@
             {% endif %}
           </ul>
           {% block navbar_search %}
-          <form class="d-flex" role="search" method="GET">
-            <input class="form-control me-2" type="search" placeholder="" aria-label="Search" name="valor" value="{{ request.GET.valor }}">
-            <button class="btn btn-outline-success" type="submit">{% translate "Buscar" %}</button>
-            <a href="{{ request.path }}" class="btn btn-outline-primary" >{% translate "Limpiar" %}</a>
-          </form>
+            {% if busqueda %}
+              <form class="d-flex" role="search" method="GET">
+                <input class="form-control me-2" type="search" placeholder="" aria-label="Search" name="valor" value="{{ request.GET.valor }}">
+                <button class="btn btn-outline-success" type="submit">{{ busqueda.buscar }}</button>
+                <a href="{{ request.path }}" class="btn btn-outline-primary" >{{ busqueda.limpiar }}</a>
+              </form>
+            {% endif %}
           {% endblock %}
         </div>
       </div>

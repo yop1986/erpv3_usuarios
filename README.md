@@ -301,6 +301,11 @@ Y se modifica el archivo **'< base >/wsgi.py'** agregando al archivo creado en p
 
 
 # Problemas con PIP
+
+## Debug Django
+
+[Django Debugo Tool Bar](https://django-debug-toolbar.readthedocs.io/en/latest/)
+
 ## Configuracion de proxy
 
 Agregar el proxy: 
