@@ -18,7 +18,7 @@ class Usuario(AbstractUser, PermissionsMixin):
     '''
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name_description = _('Nombre Completo')
-    is_active_description = _('Estado')
+    #is_active_description = _('Estado')
 
     class Meta:
         pass
@@ -33,7 +33,10 @@ class Usuario(AbstractUser, PermissionsMixin):
         return f'{self.get_full_name()} ({self.username})'
 
     def get_grupos(self):
-        return list(self.groups.all())
+        return list(self.groups.all().order_by('name'))
+
+    def get_estado(self):
+        return 'Activo' if self.is_active else 'Inactivo'
     
 class Perfil(models.Model):
     '''
@@ -46,7 +49,7 @@ class Perfil(models.Model):
     nit     = models.CharField(_('Nit'), max_length=10, blank=True)
     fecha_nacimiento = models.DateField(_('Fecha de nacimiento'), null=True, blank=True)
     
-    usuario = models.OneToOneField(Usuario, on_delete = models.CASCADE)
+    usuario = models.OneToOneField(Usuario, verbose_name='Perfil', on_delete = models.CASCADE)
 
     edad_description = _('Edad')
 
@@ -83,7 +86,7 @@ class Puesto(models.Model):
     # def_estado_display()
     actualizado = models.DateTimeField(_('Ult. Actualizacion'), auto_now=True)
 
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='perfil', on_delete=models.PROTECT, null=True, blank=True)
     padre   = models.ForeignKey('self', related_name='puesto_superior', on_delete=models.RESTRICT, null=True, blank=True)
     
     history = HistoricalRecords(excluded_fields=[], user_model=settings.AUTH_USER_MODEL)
@@ -91,7 +94,6 @@ class Puesto(models.Model):
     def __str__(self):
         return self.nombre
     
-
 class PuestoSuplente(models.Model):
     '''
         Puesto suplente en caso de estar deshabilitado el puesto

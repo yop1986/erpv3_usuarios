@@ -29,10 +29,11 @@
           <td>{{ object.date_joined|date:"d/m/Y" }}</td>
           <td>{% get_descripcion_estados object.is_active %}</td>
           <td>
-            <a href="{% url 'usuarios:detail_user' object.id %}" class="btn btn-primary">{{ opciones.ver }}</a>
+            <a href="{% url 'usuarios:detail_user' object.id %}" class="btn btn-primary">
+              <img src="{% static 'images/usuario_detail.png' %}" alt="{{ opciones.ver }}" height="25px"></a>
             {% if perms.usuarios.change_usuario %}
             <a href="{% url 'usuarios:actualizar' object.id %}" class="btn btn-primary">
-            {{ opciones.editar }}
+            <img src="{% static 'images/usuario_update.png' %}" alt="{{ opciones.editar }}" height="25px">
             </a>
             {% endif %}
           </td>

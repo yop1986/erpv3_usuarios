@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static fields_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <div class="container">
+    {% for object in objects %}
+      {% for campo in object.campos.lista %}
+        <div class="row">
+          <div class="col">
+            <strong>{% get_verbose_field_name object.object campo %}</strong>
+          </div>
+          <div class="col">
+            {% get_object_value object.object campo %}
+          </div>
+        </div>
+      {% endfor %}
+      
+      {% for extra in object.campos_extra %}
+        <div class="row">
+          <div class="col">
+            <strong>{{ extra.nombre }}</strong>
+          </div>
+          <div class="col">
+          {% if extra.valor %}
+             {% get_object_value object.object extra.valor %}
+          {% elif extra.funcion %}
+            {% get_object_funcvalue object.object extra.funcion %}
+          {% elif extra.ul_lista %}
+            <ul>
+              {% for elemento in extra.ul_lista %}
+              <li> {{ elemento }} </li>
+              {% endfor %}
+            </ul>
+          {% elif extra.url %}
+              <a class="btn btn-primary btn-sm" href="{% get_object_funcvalue object.object extra.url %}" target="{{ extra.target }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ extra.nombre }}">
+                <img src="{% static 'images/' %}{{ extra.img }}" alt= "{{ extra.nombre }}" height="25px">
+              </a>
+          {% else %}
+            {{ extra.constante }}
+          {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% endfor %}
+
+    {% if opciones %}
+      <div class="row">
+        <div class="col">
+          <strong>{{ opciones.display }}</strong>
+        </div>
+
+        <div class="col">
+            {% for form in forms %}
+              {% if form.action %}
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ form.modal }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ form.display }}">
+                <img src="{% static 'images/' %}{{ form.link_img }}" alt="{{ form.display }}" height="25px">
+              </button>
+              {% endif %}
+            {% endfor %}
+            
+            {% if opciones.update_perm and opciones.update_url %}
+            <a href="{{ opciones.update_url }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.update }}">
+              <img src="{% static 'images/' %}{{ opciones.update_img }}" alt="{{ opciones.update }}" height="25px">
+            </a>
+            {% endif %}
+            {% if opciones.delete_perm and opciones.delete_url %}
+            <a href="{{ opciones.delete_url }}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.delete }}">
+              <img src="{% static 'images/' %}{{ opciones.delete_img }}" alt="{{ opciones.delete }}" height="25px">
+            </a>
+            {% endif %}
+        </div>
+          {% endif %}
+    
+    </div>
+
+    {% for table in tables %}
+      {% include 'template/tables.html' %}
+    {% endfor %}
+
+    {% for form in forms %}
+      {% include 'template/modal_form.html' %}
+    {% endfor %}
+{% endblock %}

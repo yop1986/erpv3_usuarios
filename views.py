@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.utils.translation import gettext as _
 from django.urls import reverse_lazy
 
-from .models import Usuario
+from .models import Usuario, Perfil
 from .forms import CustomUserCreationForm, CustomUserUpdateForm, PerfilForm
 
 from .personal_views import (PersonalContextMixin, PersonalTemplateView, PersonalListView, 
@@ -249,22 +249,50 @@ class UsuarioUpdateView(PersonalUpdateView):
         else:
             return super(UsuarioUpdateView, self).form_invalid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('usuarios:detail_user', kwargs={'pk': self.get_object().id})
 
 class UsuarioDetailView(PersonalTemplateView):
     '''
         Muestra la información del perfil de cualqueir usuario
     '''
-    template_name = 'usuarios/usuario_detail.html'
+    template_name = 'template/templatedetail_multiple_objects.html'
     permission_required = 'usuarios.view_usuario'
     extra_context ={
         'title': _('Usuario'),
-        'opciones': _('Opciones'),
     }
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         usuario = Usuario.objects.get(pk=kwargs['pk'])
-        context['object'] = usuario
+        context['objects'] = [
+            {
+               'object': usuario,
+                'campos':{
+                    'lista': ['email', ]
+                },
+                'campos_extra': [
+                    {'nombre': _('Estado'), 'funcion': 'get_estado'},
+                    {'nombre': _('Grupos'), 'ul_lista': usuario.get_grupos()},
+                ]
+            },
+            {
+               'object': Perfil.objects.get(usuario = usuario),
+                'campos':{
+                    'lista': ['telefono', 'celular', 'dpi', 'nit', 'fecha_nacimiento', ]
+                },
+                'campos_extra': [
+                    {'nombre': _('Edad'), 'funcion': 'get_edad'},
+                ]
+            },
+        ]
+        context['opciones'] = {
+            'display':  _('Opciones'),
+            'update':   _('Editar'),
+            'update_url': reverse_lazy('usuarios:actualizar', kwargs={'pk': kwargs['pk']}),
+            'update_img': 'usuario_update.png',
+            'update_perm': self.request.user.has_perm('usuarios.change_usuario'),
+        }
         context['grupos'] = { 'nombre': _('Grupos'), 'ul': usuario.get_grupos() }
         
         return context
