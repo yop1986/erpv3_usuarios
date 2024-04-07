@@ -69,70 +69,27 @@ def save_usuario_perfil(sender, instance, **kwargs):
     instance.perfil.save()
 
 
-
-class Puesto(models.Model):
-    '''
-        Estrcutura organizacional de la empresa
-    '''
-    ESTADOS = [
-        ('V', 'Vigente'),
-        ('B', 'Bloqueada'),
-        ('E', 'Eliminada'),
-    ]
-    id      = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    codigo  = models.CharField(_('Código'), max_length=12)
-    nombre  = models.CharField(_('Nombre'), max_length=30)
-    estado  = models.CharField(_('Estado'), choices=ESTADOS, max_length=1)
-    # def_estado_display()
-    actualizado = models.DateTimeField(_('Ult. Actualizacion'), auto_now=True)
-
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='perfil', on_delete=models.PROTECT, null=True, blank=True)
-    padre   = models.ForeignKey('self', related_name='puesto_superior', on_delete=models.RESTRICT, null=True, blank=True)
+### CATALOGOS ###
+class Departamento(models.Model):
+    id          = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    codigo      = models.CharField(_('Códgio'), max_length=2)
+    descripcion = models.CharField(_('Departamento'), max_length=30)
     
-    history = HistoricalRecords(excluded_fields=[], user_model=settings.AUTH_USER_MODEL)
+    def __str__(self):
+        return self.descripcion
+
+class Municipio(models.Model):
+    id          = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    codigo      = models.CharField(_('Códgio'), max_length=4)
+    descripcion = models.CharField(_('Municipio'), max_length=60)
+    
+    departamento= models.ForeignKey(Departamento, on_delete=models.RESTRICT)
 
     def __str__(self):
-        return self.nombre
-    
-class PuestoSuplente(models.Model):
-    '''
-        Puesto suplente en caso de estar deshabilitado el puesto
-        o de vacaciones el usuario
-    '''
-    id      = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    vigente = models.BooleanField(_('Estado'), default=True)
-    
-    puesto  = models.ForeignKey(Puesto, on_delete=models.CASCADE)
-    suplente= models.ForeignKey(Puesto, on_delete=models.PROTECT, related_name='puesto_suplente')
+        return self.descripcion
 
-    history = HistoricalRecords(excluded_fields=[], user_model=settings.AUTH_USER_MODEL)
+    def get_ubicacion_completa(self):
+        return f'{self.departamento}, {self.descripcion}'
 
-    def __str__(self):
-        return self.suplente
 
-class Vacaciones(models.Model):
-    '''
-        Programación de vacaciones por usuario
-    '''
-    ESTADOS = [
-        ('P', 'Propuesto'),
-        ('A', 'Autorizado'),
-        ('C', 'Confirmado'),
-        ('N', 'Anulado'),
-    ]
-    id      = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    fecha_inicio= models.DateField(_('Inicio'))
-    fecha_fin   = models.DateField(_('Fin'))
-    estado  = models.CharField(_('Estado'), choices=ESTADOS, default='P', max_length=1)
-    # def_estado_display()
-
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-    history = HistoricalRecords(excluded_fields=[], user_model=settings.AUTH_USER_MODEL)
-
-    def __str__(self):
-        return f'{self.fecha_inicio}-{self.fecha_fin}'
-
-    def get_total_dias(self):
-        return (self.fecha_fin-self.fecha_inicio).days if estado!='N' else 0
 
