@@ -21,15 +21,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarScroll">
           <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-            {% block navbar_seccion_inicio %}{% endblock %}
-            {% block navbar %}{% include general.menu_app %}{% endblock %}
-            {% block navbar_seccion_final %}{% endblock %}
-          </ul>
-          <ul class="navbar-nav justify-content-end my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-            {% if user.is_authenticated %}
+             {% if user.is_authenticated %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ user.username }} <img src="{% static 'images/usuario_img.png' %}"  height="25px" {% if not busqueda %} style="margin-left: 1.5em; margin-right: 1.5em" {% endif %}>
+                {{ user.username }} <img src="{% static 'images/usuario_img.png' %}"  height="18px" >
               </a>
               <ul class="dropdown-menu">
               {% if request.user.is_staff %}
@@ -69,6 +64,12 @@
               </a>
             </li>
             {% endif %}
+            {% block navbar_seccion_inicio %}{% endblock %}
+            {% block navbar %}{% include general.menu_app %}{% endblock %}
+            {% block navbar_seccion_final %}{% endblock %}
+          </ul>
+          <ul class="navbar-nav justify-content-end my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+           
           </ul>
           {% block navbar_search %}
             {% if busqueda %}
