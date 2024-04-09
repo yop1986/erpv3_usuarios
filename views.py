@@ -272,10 +272,9 @@ class UsuarioDetailView(PersonalTemplateView):
         context['objects'] = [
             {
                'object': usuario,
-                'campos':{
-                    'lista': ['email', ]
-                },
                 'campos_extra': [
+                    {'nombre': _('Nombre'), 'funcion': 'get_full_name'},
+                    {'nombre': _('Correo'), 'valor': 'email'},
                     {'nombre': _('Estado'), 'funcion': 'get_estado'},
                     {'nombre': _('Grupos'), 'ul_lista': usuario.get_grupos()},
                 ]

@@ -21,13 +21,12 @@ class Usuario(AbstractUser, PermissionsMixin):
     #is_active_description = _('Estado')
 
     class Meta:
-        pass
-        #permissions = [
+        permissions = [
         #    ('create_usuario', 'Permite la creación de usuarios'),
-        #]
+        ]
     def clean(self):
-        self.first_name = self.first_name.capitalize()
-        self.last_name = self.last_name.capitalize()
+        self.first_name = self.first_name.title()
+        self.last_name = self.last_name.title()
 
     def __str__(self):
         return f'{self.get_full_name()} ({self.username})'
