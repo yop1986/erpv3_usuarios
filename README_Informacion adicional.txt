@@ -106,8 +106,15 @@ Template: detail.html
         opciones    titulo a desplegar de las opciones, si no hay valor no las muestra
             <imagenes y display utiliza las mismas que en la sección pricipal del detail>
         permisos
-            update  define el permiso para el boton actualizar (opciones)
+            detail_img <si existe utiliza este icono en el boton, si no utiliza el generico de la pantalla>
+            update      define el permiso para el boton actualizar (opciones)
+            update_img  <si existe utiliza este icono en el boton, si no utiliza el generico de la pantalla>
+            update_display  <display o tooltip que se desea en el icono del modal>
+            update_modal    <si se desea que se desplique el formulario en el modal indicado>    
             delete  define el permiso para el boton eliminar (opciones)
+            delete_img <si existe utiliza este icono en el boton, si no utiliza el generico de la pantalla>
+            delete_display  <display o tooltip que se desea en el icono del modal>
+            delete_modal    <si se desea que se desplique el formulario en el modal indicado>    
         next        se utiliza para definir un redireccionamiento posterior a enviar el formulario
  ***manual_tables   (subsección agregada al detail)
 Template: delete_confirmation.html

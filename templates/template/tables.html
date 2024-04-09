@@ -59,27 +59,39 @@
           </td>
           {% endfor %}
 
-        {% if table.opciones %}
+      {% if table.opciones %}
         <th scope="col">
           {% if object.url_detail %}
           <a href="{{ object.url_detail }}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.detail }}">
-            <img src="{% static 'images/' %}{{ opciones.detail_img }}" alt="{{ opciones.detail }}" height="25px">
+            <img src="{% static 'images/' %}{% if table.permisos.detail_img %}{{ table.permisos.detail_img }}{% else %}{{ opciones.detail_img }}{% endif %}" alt="{{ opciones.detail }}" height="25px">
           </a>
           {% endif %}
 
-          {% if table.permisos.update and object.url_update %}
+        {% if table.permisos.update %}
+          {% if table.permisos.update_modal %}
+            <button id = "update" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ table.permisos.update_modal }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ table.permisos.update_display }}" object="{{ object.id }}">
+              <img src="{% static 'images/' %}{{ table.permisos.update_img }}" alt="{{ table.permisos.update_display }}" height="25px">
+            </button>
+          {% elif object.url_update %}
           <a href="{{ object.url_update }}{% if table.next %}?next={{ table.next }}{% endif %}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.update }}">
-            <img src="{% static 'images/' %}{{ opciones.update_img }}" alt="{{ opciones.update }}" height="25px">
+            <img src="{% static 'images/' %}{% if table.permisos.update_img %}{{ table.permisos.update_img }}{% else %}{{ opciones.update_img }}{% endif %}" alt="{{ opciones.update }}" height="25px">
           </a>
           {% endif %}
+        {% endif %}
           
-          {% if table.permisos.delete and object.url_delete %}
-          <a href="{{ object.url_delete }}{% if table.next %}?next={{ table.next }}{% endif %}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.delete }}">
-            <img src="{% static 'images/' %}{{ opciones.delete_img }}" alt="{{ opciones.delete }}" height="25px">
-          </a>
+        {% if table.permisos.delete %}
+          {% if table.permisos.delete_modal %}
+            <button id = "delete" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ table.permisos.delete_modal }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ table.permisos.delete_display }}" object="{{ object.id }}>
+              <img src="{% static 'images/' %}{{ table.permisos.delete_img }}" alt="{{ table.permisos.delete_display }}" height="25px">
+            </button>
+          {% elif object.url_delete %}
+            <a href="{{ object.url_delete }}{% if table.next %}?next={{ table.next }}{% endif %}" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.delete }}">
+              <img src="{% static 'images/' %}{% if table.permisos.delete_img %}{{ table.permisos.delete_img }}{% else %}{{ opciones.delete_img }}{% endif %}" alt="{{ opciones.delete }}" height="25px">
+            </a>
           {% endif %}
         </th>
         {% endif %}
+      {% endif %}
       </tr>
       {% endfor %}
     </tbody>
