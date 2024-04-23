@@ -65,6 +65,7 @@ Template: detail.html
         valor       se evalúa en primer lugar y se muestra si lo tiene (con un formato definido)
         funcion     se evalúa en segundo y ejecuta la funcion mostrando el valor devuelto
         ul_lista    se evalúa y se muestra la lista correspondiente
+        porcentaje  para falores flotantes desplegados con formato %
         url         envía un enlace
         target      (propio de url) para determinar donde se abre el enlace
         img         (proio de url) para el boton

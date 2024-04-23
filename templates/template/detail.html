@@ -38,6 +38,8 @@
             <a class="btn btn-primary btn-sm" href="{% get_object_funcvalue object extra.url %}" target="{{ extra.target }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ extra.nombre }}">
               <img src="{% static 'images/' %}{{ extra.img }}" alt= "{{ extra.nombre }}" height="25px">
             </a>
+        {% elif extra.porcentaje %}
+          {% convertir_porcentaje extra.porcentaje %}
         {% else %}
           {{ extra.constante }}
         {% endif %}

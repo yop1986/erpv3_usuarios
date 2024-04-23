@@ -53,6 +53,8 @@
             <li> {{ elemento }} </li>
             {% endfor %}
           </ul>
+          {% elif extra.porcentaje %}
+            {% convertir_porcentaje extra.porcentaje %}
           {% else %}
             {{ extra.constante }}
           {% endif %}

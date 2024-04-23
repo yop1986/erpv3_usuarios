@@ -25,6 +25,7 @@ def get_descripcion_estados(value, tipo=1):
         return _('Vigente') if value else _('No vigente')
 
 
+
 @register.simple_tag
 def get_verbose_field_name(instance, field_name):
     '''
@@ -55,3 +56,16 @@ def get_object_funcvalue(pObject, pField):
     '''
     value = getattr(pObject, pField)()
     return mark_safe(value) if value else '-'
+
+@register.simple_tag
+def convertir_porcentaje(value):
+    try:
+        if not isinstance(value, float):
+            value = float(value)
+        
+        if value < 1: 
+            return f'{round(value * 100, 2)}%'
+        else:
+            return f'{value}%'
+    except:
+        return 'field_tags <valor inválido>'
