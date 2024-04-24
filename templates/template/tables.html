@@ -83,7 +83,7 @@
           
         {% if table.permisos.delete %}
           {% if table.permisos.delete_modal %}
-            <button id = "delete" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ table.permisos.delete_modal }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ table.permisos.delete_display }}" object="{{ object.id }}>
+            <button id = "delete" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ table.permisos.delete_modal }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ table.permisos.delete_display }}" object="{{ object.id }}">
               <img src="{% static 'images/' %}{{ table.permisos.delete_img }}" alt="{{ table.permisos.delete_display }}" height="25px">
             </button>
           {% elif object.url_delete %}
