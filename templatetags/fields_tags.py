@@ -60,12 +60,11 @@ def get_object_funcvalue(pObject, pField):
 @register.simple_tag
 def convertir_porcentaje(value):
     try:
-        if not isinstance(value, float):
+        if not isinstance(value, float) or not isinstance(value, int):
             value = float(value)
-        
         if value < 1: 
             return f'{round(value * 100, 2)}%'
         else:
-            return f'{value}%'
+            return f'{round(value, 2)}%'
     except:
         return 'field_tags <valor inválido>'

@@ -94,12 +94,6 @@
             {% if object.url_detail %}
             <a href="{{ object.url_detail }}" class="btn btn-primary position-relative" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ opciones.detail }}">
               <img src="{% static 'images/' %}{{ opciones.detail_img }}" alt="{{ opciones.detail }}" height="25px">
-              {% if badge and object.get_badge_value %}
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {% get_object_funcvalue object 'get_badge_value' %}
-                <span class="visually-hidden">{{ badge }}</span>
-              </span>
-              {% endif %}
             </a>
             {% endif %}
             {% if permisos.update and object.url_update %}
