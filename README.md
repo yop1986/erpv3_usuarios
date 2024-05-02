@@ -31,12 +31,15 @@ en el repositorio y se actualiza.
 Paquetes base necesarios:
 
 - pip-review
-- python-dateutil
-- django
+
 - crispy-bootstrap5
+- django
 - django-ckeditor-5
 - django-simple-history
+- html2text
 - mysqlclient
+- python-dateutil
+- xlsxwriter
 - websocket-client
 
 *django ckeditor https://pypi.org/project/django-ckeditor-5//*
@@ -252,6 +255,7 @@ siguiente informacion:
 	        'imagen':       '<imagen>',
 	    },
 	}
+
 #### Urls
 
 Posterior a esta configuracion es necesario agregar las urls al proyecto base __< Base >/urls.py__
