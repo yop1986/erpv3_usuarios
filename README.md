@@ -36,8 +36,11 @@ Paquetes base necesarios:
 - crispy-bootstrap5
 - django-ckeditor-5
 - django-simple-history
+- pandas
+- html2text
 - mysqlclient
 - websocket-client
+- xlsxWriter
 
 *django ckeditor https://pypi.org/project/django-ckeditor-5//*
 *dependencias creadas por medio del comando __pip freeze > dependencias.txt__*
