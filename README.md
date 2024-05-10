@@ -31,14 +31,16 @@ en el repositorio y se actualiza.
 Paquetes base necesarios:
 
 - pip-review
-- python-dateutil
-- django
+
 - crispy-bootstrap5
+- django
 - django-ckeditor-5
 - django-simple-history
 - pandas
 - html2text
 - mysqlclient
+- python-dateutil
+- xlsxwriter
 - websocket-client
 - xlsxWriter
 
@@ -255,6 +257,7 @@ siguiente informacion:
 	        'imagen':       '<imagen>',
 	    },
 	}
+
 #### Urls
 
 Posterior a esta configuracion es necesario agregar las urls al proyecto base __< Base >/urls.py__
