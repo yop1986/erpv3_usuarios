@@ -32,17 +32,18 @@ Paquetes base necesarios:
 
 - pip-review
 
-- crispy-bootstrap5
 - django
+- crispy-bootstrap5
 - django-ckeditor-5
 - django-simple-history
-- pandas
-- html2text
 - mysqlclient
+- pandas
 - python-dateutil
-- xlsxwriter
 - websocket-client
+- html2text
 - xlsxWriter
+- openpyxl 
+- waitress
 
 *django ckeditor https://pypi.org/project/django-ckeditor-5//*
 *dependencias creadas por medio del comando __pip freeze > dependencias.txt__*
@@ -123,13 +124,8 @@ siguiente informacion:
 
 	STATIC_URL = '/static/'
 	STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-	#STATIC_ROOT = BASE_DIR / "static"
-	#STATICFILES_DIRS = [ BASE_DIR / "static", ]
-
 	MEDIA_URL = '/media/'
 	MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-	#MEDIA_ROOT = BASE_DIR / "media"
-
 
 	###
 	### Servidor de correos
@@ -157,96 +153,101 @@ siguiente informacion:
 	LOGIN_URL = reverse_lazy('usuarios:login')
 	LOGIN_REDIRECT_URL = reverse_lazy('usuarios:home')
 	LOGOUT_REDIRECT_URL = reverse_lazy('usuarios:home')
+	CSRF_TRUSTED_ORIGINS = ['http://<servidor>:<puerto>']
 
 	CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 	CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 	customColorPalette = [
-	        {
-	            'color': 'hsl(4, 90%, 58%)',
-	            'label': 'Red'
-	        },
-	        {
-	            'color': 'hsl(340, 82%, 52%)',
-	            'label': 'Pink'
-	        },
-	        {
-	            'color': 'hsl(291, 64%, 42%)',
-	            'label': 'Purple'
-	        },
-	        {
-	            'color': 'hsl(262, 52%, 47%)',
-	            'label': 'Deep Purple'
-	        },
-	        {
-	            'color': 'hsl(231, 48%, 48%)',
-	            'label': 'Indigo'
-	        },
-	        {
-	            'color': 'hsl(207, 90%, 54%)',
-	            'label': 'Blue'
-	        },
-	    ]
+		{
+			'color': 'hsl(4, 90%, 58%)',
+			'label': 'Red'
+		},
+		{
+			'color': 'hsl(340, 82%, 52%)',
+			'label': 'Pink'
+		},
+		{
+			'color': 'hsl(291, 64%, 42%)',
+			'label': 'Purple'
+		},
+		{
+			'color': 'hsl(262, 52%, 47%)',
+			'label': 'Deep Purple'
+		},
+		{
+			'color': 'hsl(231, 48%, 48%)',
+			'label': 'Indigo'
+		},
+		{
+			'color': 'hsl(207, 90%, 54%)',
+			'label': 'Blue'
+		},
+	]
 
-	  CKEDITOR_5_CONFIGS = {
-	    'default': {
-	        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
-	                    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
-
-	    },
-	    'extends': {
-	        'blockToolbar': [
-	            'paragraph', 'heading1', 'heading2', 'heading3',
-	            '|',
-	            'bulletedList', 'numberedList',
-	            '|',
-	            'blockQuote',
-	        ],
-	        'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
-	        'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
-	                    'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
-	                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
-	                    'insertTable',],
-	        'image': {
-	            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
-	                        'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
-	            'styles': [
-	                'full',
-	                'side',
-	                'alignLeft',
-	                'alignRight',
-	                'alignCenter',
-	            ]
-
-	        },
-	        'table': {
-	            'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
-	            'tableProperties', 'tableCellProperties' ],
-	            'tableProperties': {
-	                'borderColors': customColorPalette,
-	                'backgroundColors': customColorPalette
-	            },
-	            'tableCellProperties': {
-	                'borderColors': customColorPalette,
-	                'backgroundColors': customColorPalette
-	            }
-	        },
-	        'heading' : {
-	            'options': [
-	                { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
-	                { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
-	                { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
-	                { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
-	            ]
-	        }
-	    },
-	    'list': {
-	        'properties': {
-	            'styles': 'true',
-	            'startIndex': 'true',
-	            'reversed': 'true',
-	        }
-	    }
+	CKEDITOR_5_CONFIGS = {
+		'default': {
+			'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+			'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
+		},
+		'extends': {
+			'blockToolbar': [
+				'paragraph', 'heading1', 'heading2', 'heading3',
+				'|',
+				'bulletedList', 'numberedList',
+				'|',
+				'blockQuote',
+			],
+			'toolbar': [
+				'heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
+				'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
+				'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
+				'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
+				'insertTable',
+			],
+			'image': {
+				'toolbar': [
+					'imageTextAlternative', '|', 'imageStyle:alignLeft',
+					'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'
+				],
+				'styles': [
+					'full',
+					'side',
+					'alignLeft',
+					'alignRight',
+					'alignCenter',
+				]
+			},
+			'table': {
+				'contentToolbar': [
+					'tableColumn', 'tableRow', 'mergeTableCells',
+					'tableProperties', 'tableCellProperties'
+				],
+				'tableProperties': {
+					'borderColors': customColorPalette,
+					'backgroundColors': customColorPalette
+				},
+				'tableCellProperties': {
+					'borderColors': customColorPalette,
+					'backgroundColors': customColorPalette
+				}
+			},
+			'heading' : {
+				'options': [
+					{ 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
+					{ 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
+					{ 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
+					{ 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+				]
+			}
+		},
+		'list': {
+			'properties': {
+				'styles': 'true',
+				'startIndex': 'true',
+				'reversed': 'true',
+			}
+		}
 	}
 
 	INFORMACION_APLICACIONES = {
@@ -279,32 +280,78 @@ Posterior a esta configuracion es necesario agregar las urls al proyecto base __
 
 ## Producción
 
-### Configuración del Ambiente
+### Instalación y configuarción software
+
+[Video de referencia servidor Nginx y Waitress](https://www.youtube.com/watch?v=BBKq6H9Rm5g
+)
+
+#### Configuración nginx_waitress
+
+Como parte de la preparacion previa se toman los archivos base y se modifican de acuerdo con 
+los siguientes parametros. Estos serviran para configurar el sitio en NGinx y el archivo python 
+para ejecutar el servidor en waitress.
+
+	webproject_nginx.conf (se cambia el nombre del archivo por <nombre_proyecto>_nginx.conf)
+		- server_name
+		- media alias (directorio donde se almacenan archivos)
+		- static alias (directorio donde se almacenan archivos)
+
+	runserver.py
+		se modifica el nombre del proyecto para que coincida con el que se utiliza
+		se modifica el puerto que utilizará django 8080 >> 8081
+		se mueve el archivo al mismo lugar donde esta manage.py
+
+##### NGINX
+[nginx](https://nginx.org/en/download.html)
+
+Se descomprime el archivo y se coloca la carpeta en el disco C
+
+	C:\nginx-1.26.0 
+Dentro de dicha ruta se crean los directorios:
+
+	sites-available
+	sites-anabled
+
+Dentro de ambos directorios, se copia el archivo modificado *<nombre_proyecto>_nginx.conf*
+para despues modificar el archvio "conf/nginx.conf", agregando dentro del archivo la siguiente linea, 
+dentro de la sección http, después de la linea default_type
+
+	include C:/nginx-1.26.0/sites-enabled/<nombre_proyecto>_nginx.conf;
+
+En la seccion http, en serverlisten se cambia el puerto a uno no utilizado (puede ser 10, el puerto 80 
+que trae por defecto será utilizado por *<nombre_proyecto>_nginx.conf*)
+
+Se modifica el location con los siguientes parametros para recibir el corss site reference y el puerto proxy_pass 
+
+	location / {
+        proxy_pass              http://localhost:8081;
+        #proxy_pass_header       Set-Cookie;
+        #proxy_read_timeout 300;
+        #proxy_connect_timeout 300;
+        #proxy_send_timeout 300;
+    }
+
+
+#### Configuración del Ambiente (en django)
 
 Configuración del archivo 'setting.py' para un ambiente de producción local
 
 	SECRET_KEY = 'django-insecure--yy^#vtem@522nqsw4)69-ddtc_^xn&p#sl74$&jkw1^g9azy8'
+	DEBUG = False
 	ALLOWED_HOSTS = ['*']
-	DEBUG = True
 
-Opcionalmente se puede crear un archivo bat para ejecutar fácilmente el servidor con una configuración
-similar a la siguiente:
+Finalment para la ejecucion es necesario que se ejecute nginx y el runserver.py para que funcione
+el sitio como es debido. Para esto opcionalmente se puede crear un archivo bat para ejecutar 
+fácilmente el servidor con una configuración similar a la siguiente:
 
 	@echo off
-	.venv\Scripts\activate.bat&&python manage.py runserver 10.160.163.16:8080
-
-#### Instalación y configuarción software
-
-Si solo se dese utilizar el mismo servidor de django, para servir los archivos static se instala
-dj-static
-
-	pip install dj-static
-
-Y se modifica el archivo **'< base >/wsgi.py'** agregando al archivo creado en por defecto.
-
-	# If using dj-static:
-	from dj_static import Cling
-	application = Cling(get_wsgi_application())
+	:: Permite la ejecución de los procesos del servidor
+	C:
+	cd C:\nginx-1.26.0\
+	start C:\nginx-1.26.0\nginx.exe
+	D:
+	cd D:\Backup\Repositorio\ERPv3_Nginx\
+	call D:\Backup\Repositorio\ERPv3_Nginx\runserver.py
 
 
 # Problemas con PIP
