@@ -353,6 +353,18 @@ fácilmente el servidor con una configuración similar a la siguiente:
 	cd D:\Backup\Repositorio\ERPv3_Nginx\
 	call D:\Backup\Repositorio\ERPv3_Nginx\runserver.py
 
+Es importante modificar el codigo siguiente de la aplicacion ckeditor para permitir a todos los 
+usuarios (si no se hace, únicamente permite a los administradores subir imágenes). El archivo a modificar 
+es **.venv\Lib\site-packages\django_ckeditor_5\views.py**
+
+	def upload_file(request):
+    	if request.method == "POST" and request.user.is_staff:
+
+Se cambia por 
+
+	def upload_file(request):
+    if request.method == "POST":
+
 
 # Problemas con PIP
 
