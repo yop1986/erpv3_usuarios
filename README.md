@@ -287,7 +287,15 @@ Posterior a esta configuracion es necesario agregar las urls al proyecto base __
 
 #### Configuración nginx_waitress
 
-Como parte de la preparacion previa se toman los archivos base y se modifican de acuerdo con 
+**Paso 1** Para utilizar una conexión seguro (ssl) es necesario generar los certificados, para esto utilizaremos 
+openssl con los siguientes comandos [certificados](https://gist.github.com/taoyuan/39d9bc24bafc8cc45663683eae36eb1a)
+en el proceso se responde o configuran los archivos de forma guiada: 
+
+	>openssl genrsa -out <filename1>.key 2048
+	>openssl req -new -key <filename1>.key -out <filename2>.csr
+	>openssl x509 -req -days 3650 -in <filename2>.csr -signkey <filename1>.key -out <filename3>.crt
+
+**Paso 2** Como parte de la preparacion previa se toman los archivos base y se modifican de acuerdo con 
 los siguientes parametros. Estos serviran para configurar el sitio en NGinx y el archivo python 
 para ejecutar el servidor en waitress.
 
@@ -309,17 +317,21 @@ Se descomprime el archivo y se coloca la carpeta en el disco C
 	C:\nginx-1.26.0 
 Dentro de dicha ruta se crean los directorios:
 
+	certficados
 	sites-available
 	sites-anabled
 
-Dentro de ambos directorios, se copia el archivo modificado *<nombre_proyecto>_nginx.conf*
+__Opcionalmente__ En el primero (certificados), se copian los archivos creados con el comando ssl para 
+utilizar una conexion segura y conectarse con el protocolo https.
+
+Dentro de los otros dos directorios (sites-*), se copia el archivo modificado *<nombre_proyecto>_nginx.conf*
 para despues modificar el archvio "conf/nginx.conf", agregando dentro del archivo la siguiente linea, 
 dentro de la sección http, después de la linea default_type
 
 	include C:/nginx-1.26.0/sites-enabled/<nombre_proyecto>_nginx.conf;
 
-En la seccion http, en serverlisten se cambia el puerto a uno no utilizado (puede ser 10, el puerto 80 
-que trae por defecto será utilizado por *<nombre_proyecto>_nginx.conf*)
+__En la seccion http, en server listen se cambia el puerto a uno no utilizado (puede ser 10, el puerto 80 
+que trae por defecto será utilizado por *<nombre_proyecto>_nginx.conf*)__
 
 Se modifica el location con los siguientes parametros para recibir el corss site reference y el puerto proxy_pass 
 
@@ -346,6 +358,7 @@ fácilmente el servidor con una configuración similar a la siguiente:
 
 	@echo off
 	:: Permite la ejecución de los procesos del servidor
+	taskkill /f /im nginx.exe
 	C:
 	cd C:\nginx-1.26.0\
 	start C:\nginx-1.26.0\nginx.exe
