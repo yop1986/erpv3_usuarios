@@ -274,7 +274,7 @@ Posterior a esta configuracion es necesario agregar las urls al proyecto base __
 	(venv) ERPv3> python manage.py makemigrations
 	(venv) ERPv3> python manage.py migrate
 	(venv) ERPv3> python manage.py createsuperuser
-	(venv) ERPv3> python manage.py shell < cargas/<archivo de carga>.py
+	(venv) ERPv3> python manage.py shell < path\<archivo de carga>.py
 	(venv) ERPv3> python manage.py runserver <puerto>
 
 
